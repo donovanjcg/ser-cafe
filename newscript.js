@@ -9,21 +9,21 @@ const productos = [
         nombre: "Castillo Sur",
         presentacion: 250,
         precio: 23000,
-        imagen: "Img/castillo250.png"
+        imagen: "Img/Grano_Castillo-01.png"
     },
     {
         id: 2,
         nombre: "Castillo Sur",
         presentacion: 500,
         precio: 42000,
-        imagen: "Img/castillo500.png"
+        imagen: "Img/Grano_Castillo-01.png"
     },
     {
         id: 3,
         nombre: "Castillo Sur",
         presentacion: 2500,
         precio: 189900,
-        imagen: "Img/castillo2500.png"
+        imagen: "Img/Grano_Castillo-01.png"
     },
 
     {
@@ -31,21 +31,21 @@ const productos = [
         nombre: "Chiroso",
         presentacion: 250,
         precio: 32000,
-        imagen: "Img/chiroso250.png"
+        imagen: "Img/Grano_Chiroso-02.png"
     },
     {
         id: 5,
         nombre: "Chiroso",
         presentacion: 500,
         precio: 59000,
-        imagen: "Img/chiroso500.png"
+        imagen: "Img/Grano_Chiroso-02.png"
     },
     {
         id: 6,
         nombre: "Chiroso",
         presentacion: 2500,
         precio: 247500,
-        imagen: "Img/chiroso2500.png"
+        imagen: "Img/Grano_Chiroso-02.png"
     },
 
     {
@@ -53,21 +53,21 @@ const productos = [
         nombre: "Catimor",
         presentacion: 250,
         precio: 26000,
-        imagen: "Img/catimor250.png"
+        imagen: "Img/perfil.png"
     },
     {
         id: 8,
         nombre: "Catimor",
         presentacion: 500,
         precio: 49000,
-        imagen: "Img/catimor500.png"
+        imagen: "Img/perfil.png"
     },
     {
         id: 9,
         nombre: "Catimor",
         presentacion: 2500,
         precio: 219500,
-        imagen: "Img/catimor2500.png"
+        imagen: "Img/perfil.png"
     }
 
 ];
@@ -200,6 +200,13 @@ function renderProductos() {
             " " +
             producto.presentacion +
             "g";
+
+        clone.querySelector(
+            ".producto-imagen"
+        ).onerror = function () {
+            this.onerror = null;
+            this.src = "Img/logoSC-10.png";
+        };
 
         clone.querySelector(
             ".producto-nombre"
@@ -352,6 +359,42 @@ function agregarAlCarrito(
 
     actualizarResumen();
 
+    mostrarToast(
+        `${producto.nombre} ${producto.presentacion}g agregado al carrito`
+    );
+
+}
+
+
+// =========================
+// NOTIFICACIÓN (TOAST)
+// =========================
+
+let toastTimeout;
+
+function mostrarToast(mensaje) {
+
+    let toast =
+        document.getElementById("toastCarrito");
+
+    if (!toast) {
+
+        toast = document.createElement("div");
+        toast.id = "toastCarrito";
+        toast.className = "toast-carrito";
+        document.body.appendChild(toast);
+
+    }
+
+    toast.innerText = mensaje;
+    toast.classList.add("activo");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("activo");
+    }, 2500);
+
 }
 
 
@@ -394,7 +437,8 @@ function renderCarrito() {
 
                 <img
                     src="${item.imagen}"
-                    class="img-carrito">
+                    class="img-carrito"
+                    onerror="this.onerror=null;this.src='Img/logoSC-10.png';">
 
                 <div class="info-carrito">
 
@@ -602,7 +646,8 @@ function cargarMunicipios() {
             "municipio"
         );
 
-    municipioSelect.innerHTML = "";
+    municipioSelect.innerHTML =
+        '<option value="">Seleccione municipio</option>';
 
     if (
         municipiosPorDepartamento[

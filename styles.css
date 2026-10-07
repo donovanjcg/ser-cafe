@@ -449,3 +449,450 @@ body{
         text-align: center;
     }
 }
+
+/* ============================================================
+   TIENDA CON CARRITO - Ser Café
+   ============================================================ */
+
+/* Compensar el header fijo en la tienda */
+.banner-tienda {
+    margin-top: 70px;
+    background: linear-gradient(135deg, var(--color-principal), #782494);
+    color: #EFEFB9;
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+}
+
+.banner-tienda h1 {
+    color: #EFEFB9;
+    margin: 0 0 0.8rem;
+}
+
+.banner-tienda p {
+    color: #f3e9d8;
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* ---------- CATÁLOGO ---------- */
+.catalogo {
+    max-width: 1200px;
+    margin: 2.5rem auto;
+    padding: 0 1rem;
+}
+
+.catalogo h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+}
+
+/* ---------- TARJETA DE PRODUCTO ---------- */
+.producto {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+}
+
+.producto:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #efe2ff;
+}
+
+.producto-info {
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.producto-nombre {
+    font-family: Anton, sans-serif;
+    color: var(--color-principal);
+    margin: 0;
+    font-size: 1.6rem;
+    text-align: left;
+}
+
+.producto-presentacion {
+    margin: 0;
+    font-size: 1rem;
+    color: #777;
+    font-family: Montserrat, sans-serif;
+}
+
+.producto-precio {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #310240;
+    font-family: Montserrat, sans-serif;
+}
+
+.producto-info label {
+    font-size: 0.85rem;
+    color: #555;
+    font-family: Montserrat, sans-serif;
+    margin-top: 0.3rem;
+}
+
+.producto-info .molienda {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+    border: 1px solid #cbb2d6;
+    font-family: Montserrat, sans-serif;
+    cursor: pointer;
+}
+
+/* Selector de cantidad en la tarjeta */
+.cantidad-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+
+.cantidad-btn {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-principal);
+    background: var(--color-principal);
+    color: #EFEFB9;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cantidad-btn:hover {
+    background: #84599e;
+}
+
+.cantidad-box .cantidad {
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-width: 1.5rem;
+    text-align: center;
+    color: #310240;
+}
+
+.btn-agregar {
+    margin-top: auto;
+    padding: 0.8rem;
+    background: var(--color-principal);
+    color: #EFEFB9;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-agregar:hover {
+    background: #782494;
+}
+
+/* ---------- PANEL DE CARRITO ---------- */
+.carrito-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    max-width: 90vw;
+    height: 100%;
+    background: #fff;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 1.2rem;
+    box-sizing: border-box;
+}
+
+.carrito-panel.activo {
+    transform: translateX(0);
+}
+
+.carrito-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carrito-header h2 {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.cerrar-carrito {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-principal);
+}
+
+.carrito-items {
+    margin: 1rem 0;
+}
+
+.carrito-items > p {
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+}
+
+/* Item dentro del carrito */
+.item-carrito {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.img-carrito {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    background: #efe2ff;
+}
+
+.info-carrito {
+    font-family: Montserrat, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+.info-carrito strong {
+    color: var(--color-principal);
+}
+
+.acciones-carrito {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.acciones-carrito button {
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-principal);
+    background: #fff;
+    color: var(--color-principal);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.acciones-carrito button:hover {
+    background: var(--color-principal);
+    color: #EFEFB9;
+}
+
+.acciones-carrito span {
+    font-weight: bold;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* Ubicación y resumen dentro del carrito */
+.ubicacion h3,
+.resumen-compra h3 {
+    color: var(--color-principal);
+    text-align: left;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.ubicacion select {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid #cbb2d6;
+    font-family: Montserrat, sans-serif;
+    cursor: pointer;
+}
+
+.carrito-panel hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1rem 0;
+}
+
+.fila-resumen {
+    display: flex;
+    justify-content: space-between;
+    font-family: Montserrat, sans-serif;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.fila-resumen.total {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--color-principal);
+    border-top: 2px solid #eee;
+    padding-top: 0.6rem;
+    margin-top: 0.4rem;
+}
+
+/* Botón pagar */
+.pago {
+    margin-top: 1rem;
+}
+
+.btn-pagar {
+    width: 100%;
+    padding: 1rem;
+    background: var(--color-principal);
+    color: #EFEFB9;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-pagar:hover {
+    background: #782494;
+}
+
+#epayco-button-container {
+    margin-top: 0.8rem;
+    text-align: center;
+}
+
+/* Overlay oscuro */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    z-index: 999;
+}
+
+.overlay.activo {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Notificación "agregado al carrito" */
+.toast-carrito {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(2rem);
+    background: var(--color-principal);
+    color: #EFEFB9;
+    padding: 0.9rem 1.6rem;
+    border-radius: 0.6rem;
+    font-family: Montserrat, sans-serif;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1100;
+}
+
+.toast-carrito.activo {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Loading */
+.loading {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.3rem;
+    color: var(--color-principal);
+    z-index: 1200;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    background: var(--color-principal);
+    color: #EFEFB9;
+    padding: 2.5rem 1rem;
+    margin-top: 3rem;
+}
+
+.footer-contenido {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 120px;
+    margin-bottom: 1rem;
+}
+
+.footer-contenido p {
+    color: #f3e9d8;
+    font-size: 1rem;
+    margin: 0.3rem 0;
+    text-align: center;
+}
+
+/* ---------- RESPONSIVE TIENDA ---------- */
+@media (max-width: 700px) {
+    .banner-tienda {
+        margin-top: 60px;
+        padding: 2.5rem 1rem;
+    }
+
+    .carrito-panel {
+        width: 100%;
+        max-width: 100vw;
+    }
+
+    .producto-imagen {
+        height: 200px;
+    }
+
+    .banner-tienda p {
+        padding: 0;
+    }
+}
