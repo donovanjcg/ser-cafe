@@ -9,21 +9,21 @@ const productos = [
         nombre: "Castillo Sur",
         presentacion: 250,
         precio: 23000,
-        imagen: "Img/Grano_Castillo-01.png"
+        imagen: "Img/250gr.png"
     },
     {
         id: 2,
         nombre: "Castillo Sur",
         presentacion: 500,
         precio: 42000,
-        imagen: "Img/Grano_Castillo-01.png"
+        imagen: "Img/500gr.png"
     },
     {
         id: 3,
         nombre: "Castillo Sur",
         presentacion: 2500,
         precio: 189900,
-        imagen: "Img/Grano_Castillo-01.png"
+        imagen: "Img/2500gr.png"
     },
 
     {
@@ -31,21 +31,21 @@ const productos = [
         nombre: "Chiroso",
         presentacion: 250,
         precio: 32000,
-        imagen: "Img/Grano_Chiroso-02.png"
+        imagen: "Img/250gr.png"
     },
     {
         id: 5,
         nombre: "Chiroso",
         presentacion: 500,
         precio: 59000,
-        imagen: "Img/Grano_Chiroso-02.png"
+        imagen: "Img/500gr.png"
     },
     {
         id: 6,
         nombre: "Chiroso",
         presentacion: 2500,
         precio: 247500,
-        imagen: "Img/Grano_Chiroso-02.png"
+        imagen: "Img/2500gr.png"
     },
 
     {
@@ -53,21 +53,21 @@ const productos = [
         nombre: "Catimor",
         presentacion: 250,
         precio: 26000,
-        imagen: "Img/perfil.png"
+        imagen: "Img/250gr.png"
     },
     {
         id: 8,
         nombre: "Catimor",
         presentacion: 500,
         precio: 49000,
-        imagen: "Img/perfil.png"
+        imagen: "Img/500gr.png"
     },
     {
         id: 9,
         nombre: "Catimor",
         presentacion: 2500,
         precio: 219500,
-        imagen: "Img/perfil.png"
+        imagen: "Img/2500gr.png"
     }
 
 ];
