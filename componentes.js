@@ -80,9 +80,77 @@ function inyectarBotonWhatsApp() {
 }
 
 // =========================================================
+// CARRUSEL DE IMÁGENES (galería de perfil)
+// =========================================================
+function iniciarCarruseles() {
+
+    const carruseles = document.querySelectorAll(".carrusel");
+
+    carruseles.forEach(carrusel => {
+
+        const slides = carrusel.querySelectorAll(".carrusel-slide");
+        if (slides.length === 0) return;
+
+        let actual = 0;
+
+        const mostrar = (i) => {
+            slides.forEach((s, idx) => {
+                s.classList.toggle("activo", idx === i);
+            });
+            const puntos = carrusel.querySelectorAll(".carrusel-punto");
+            puntos.forEach((p, idx) => {
+                p.classList.toggle("activo", idx === i);
+            });
+        };
+
+        const siguiente = () => {
+            actual = (actual + 1) % slides.length;
+            mostrar(actual);
+        };
+
+        const anterior = () => {
+            actual = (actual - 1 + slides.length) % slides.length;
+            mostrar(actual);
+        };
+
+        // Botones prev/next
+        const btnPrev = carrusel.querySelector(".carrusel-prev");
+        const btnNext = carrusel.querySelector(".carrusel-next");
+        if (btnPrev) btnPrev.addEventListener("click", () => { anterior(); reiniciarAuto(); });
+        if (btnNext) btnNext.addEventListener("click", () => { siguiente(); reiniciarAuto(); });
+
+        // Puntos indicadores
+        const contenedorPuntos = carrusel.querySelector(".carrusel-puntos");
+        if (contenedorPuntos) {
+            slides.forEach((_, idx) => {
+                const punto = document.createElement("button");
+                punto.className = "carrusel-punto" + (idx === 0 ? " activo" : "");
+                punto.setAttribute("aria-label", "Ver imagen " + (idx + 1));
+                punto.addEventListener("click", () => {
+                    actual = idx;
+                    mostrar(actual);
+                    reiniciarAuto();
+                });
+                contenedorPuntos.appendChild(punto);
+            });
+        }
+
+        // Avance automático
+        let intervalo = setInterval(siguiente, 3500);
+        function reiniciarAuto() {
+            clearInterval(intervalo);
+            intervalo = setInterval(siguiente, 3500);
+        }
+
+        mostrar(0);
+    });
+}
+
+// =========================================================
 // INICIO
 // =========================================================
 document.addEventListener("DOMContentLoaded", () => {
     inyectarFooter();
     inyectarBotonWhatsApp();
+    iniciarCarruseles();
 });

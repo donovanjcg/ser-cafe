@@ -19,9 +19,20 @@ header {
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    width: 99%;
-    padding: 0.4rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    padding: 0 1rem;
+    box-sizing: border-box;
     background-color: var(--color-fondo);
+    z-index: 900;
+}
+
+/* Espaciador global: empuja el contenido debajo del header fijo */
+body {
+    padding-top: 64px;
 }
 
 header a{
@@ -141,7 +152,7 @@ nav a:hover{
     align-items: center;
     background-color: var(--color-fondo-text);
     gap: 5%;
-    padding: 4.5rem 10px 10px;
+    padding: 2.5rem 10px;
 }
 
 .contenedor3c {
@@ -150,13 +161,13 @@ nav a:hover{
     align-items: center;
     background-color: var(--color-principal);
     gap: 5%;
-    padding: 4.5rem 10px 10px;
+    padding: 2.5rem 10px;
 }
 
 .tiendah1 {
     text-align: center;
     background-color: var(--color-fondo-text);
-    padding: 4.5rem 10px 10px;
+    padding: 2.5rem 10px;
     margin: 0;
 }
 
@@ -454,9 +465,7 @@ body{
    TIENDA CON CARRITO - Ser Café
    ============================================================ */
 
-/* Compensar el header fijo en la tienda */
 .banner-tienda {
-    margin-top: 70px;
     background: linear-gradient(135deg, var(--color-principal), #782494);
     color: #EFEFB9;
     text-align: center;
@@ -894,8 +903,8 @@ footer,
 }
 
 .red-social {
-    width: 2.8rem;
-    height: 2.8rem;
+    width: 2.1rem;
+    height: 2.1rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -905,8 +914,8 @@ footer,
 }
 
 .red-social img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.1rem;
+    height: 1.1rem;
     /* Iconos SVG en blanco para contrastar con el fondo morado */
     filter: brightness(0) invert(1);
 }
@@ -930,24 +939,24 @@ footer,
 /* ---------- BOTÓN FLOTANTE WHATSAPP ---------- */
 .whatsapp-flotante {
     position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 3.6rem;
-    height: 3.6rem;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    width: 2.9rem;
+    height: 2.9rem;
     border-radius: 50%;
     background: #25d366;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-    z-index: 950;
+    z-index: 1500;
     transition: transform 0.2s, box-shadow 0.2s;
     animation: wa-pulse 2.5s infinite;
 }
 
 .whatsapp-flotante img {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 1.7rem;
+    height: 1.7rem;
     filter: brightness(0) invert(1);
 }
 
@@ -972,19 +981,18 @@ footer,
     .whatsapp-flotante {
         bottom: 1rem;
         right: 1rem;
-        width: 3.2rem;
-        height: 3.2rem;
+        width: 2.7rem;
+        height: 2.7rem;
     }
     .whatsapp-flotante img {
-        width: 1.9rem;
-        height: 1.9rem;
+        width: 1.5rem;
+        height: 1.5rem;
     }
 }
 
 /* ---------- RESPONSIVE TIENDA ---------- */
 @media (max-width: 700px) {
     .banner-tienda {
-        margin-top: 60px;
         padding: 2.5rem 1rem;
     }
 
@@ -1072,46 +1080,145 @@ footer,
     }
 }
 
-/* ---------- PÁGINA PERFIL (variedades) ---------- */
+/* ---------- PÁGINA PERFIL (variedades estilo producto) ---------- */
 .variedad {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
     align-items: center;
-    max-width: 1100px;
+    max-width: 1150px;
     margin: 2.5rem auto;
-    padding: 1.5rem;
+    padding: 2rem;
     background: #fff;
     border-radius: 18px;
-    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.08);
 }
 
-.variedad-media {
-    text-align: center;
-}
-
-.variedad-media h2 {
+.variedad-info h2 {
     margin-top: 0;
+    color: var(--color-principal);
+    text-align: left;
 }
 
-.variedad-media img {
-    width: 100%;
-    max-width: 240px;
-    height: auto;
-}
-
-.variedad .caracteristicas {
-    margin: 0;
+.variedad-info .caracteristicas {
+    margin: 1rem 0 0;
     max-width: 100%;
+    padding: 0;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+.variedad-info .card {
+    padding: 0.6rem;
+}
+
+.variedad-info .card h3 {
+    font-size: 1rem;
+}
+
+.variedad-info .card p {
+    font-size: 0.95rem;
+}
+
+/* ---------- CARRUSEL ---------- */
+.carrusel {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f3ebf7;
+}
+
+.carrusel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrusel-slide.activo {
+    opacity: 1;
+}
+
+.carrusel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+/* Flechas */
+.carrusel-prev,
+.carrusel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.4rem;
+    height: 2.4rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(89, 12, 114, 0.6);
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrusel-prev:hover,
+.carrusel-next:hover {
+    background: var(--color-principal);
+}
+
+.carrusel-prev { left: 0.6rem; }
+.carrusel-next { right: 0.6rem; }
+
+/* Puntos */
+.carrusel-puntos {
+    position: absolute;
+    bottom: 0.7rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    z-index: 2;
+}
+
+.carrusel-punto {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    border: none;
+    background: rgba(89, 12, 114, 0.35);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s;
+}
+
+.carrusel-punto.activo {
+    background: var(--color-principal);
 }
 
 @media (max-width: 760px) {
     .variedad {
         grid-template-columns: 1fr;
+        padding: 1.2rem;
+    }
+    .variedad-info h2 {
         text-align: center;
     }
-    .variedad-media img {
-        max-width: 180px;
+    .carrusel {
+        max-width: 320px;
     }
 }
 
@@ -1210,11 +1317,6 @@ h4.textoh3 {
     text-decoration: none;
     font-weight: 600;
     font-family: Montserrat, sans-serif;
-}
-
-/* Compensar header fijo en la primera sección del home */
-body > .contenedor2c:first-of-type {
-    padding-top: 6rem;
 }
 
 /* Imágenes del home: evitar que se vean desproporcionadas */
