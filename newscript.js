@@ -55,7 +55,7 @@ const productos = [
         id: 1,
         nombre: "Castillo Sur",
         presentacion: 250,
-        precio: 23000,
+        precio: 4000,
         imagen: "Img/250gr.png"
     },
     {
@@ -77,7 +77,7 @@ const productos = [
         id: 4,
         nombre: "Chiroso",
         presentacion: 250,
-        precio: 32000,
+        precio: 4500,
         imagen: "Img/250gr.png"
     },
     {
