@@ -124,7 +124,7 @@
             return;
         }
 
-        if (APPS_SCRIPT_URL.startsWith("https://script.google.com/macros/s/AKfycbwNqmbYsvIc7AVpMLDtwCeFbgbpS4bRcgSyhOyok_ONSQEbYEILqpkrheivWerTF_D_/exec")) {
+        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("/exec") === -1) {
             estado.className = "cv2-estado error";
             estado.textContent = "Falta configurar la URL del Apps Script en el código (APPS_SCRIPT_URL).";
             return;
@@ -134,13 +134,20 @@
         btn.textContent = "Enviando...";
 
         try {
-            // FormData evita el preflight CORS (petición "simple")
-            const datos = new FormData(form);
+            // Enviamos como x-www-form-urlencoded: así Apps Script llena
+            // e.parameter de forma fiable (el multipart de FormData a veces no).
+            // Es una petición "simple" => no dispara preflight CORS.
+            const params = new URLSearchParams();
+            params.append("nombre",   form.nombre.value.trim());
+            params.append("correo",   form.correo.value.trim());
+            params.append("telefono", form.telefono.value.trim());
+            params.append("mensaje",  form.mensaje.value.trim());
 
             await fetch(APPS_SCRIPT_URL, {
                 method: "POST",
-                body: datos,
-                mode: "no-cors"   // Apps Script no envía cabeceras CORS; no-cors permite el POST
+                mode: "no-cors",   // Apps Script no envía cabeceras CORS
+                headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+                body: params.toString()
             });
 
             // Con no-cors no podemos leer la respuesta, pero el POST sí llega al script.

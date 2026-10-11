@@ -6,35 +6,51 @@
  *  Qué hace:
  *   1. Recibe los datos del formulario propio (contactanos-v2.html).
  *   2. Los guarda como una nueva fila en una hoja de cálculo (Google Sheets).
- *   3. Envía un correo de aviso a quien gestiona los mensajes (MailApp).
- *
- *  Es la MISMA capacidad del formulario de Google que ya usabas, pero el
- *  formulario de la web ahora es propio y 100% estilizable.
+ *   3. Envía un correo de aviso con MailApp.
  *
  * ------------------------------------------------------------
- *  CÓMO PUBLICARLO (una sola vez):
+ *  PASOS PARA QUE FUNCIONE (muy importante):
  * ------------------------------------------------------------
- *  1. Crea una Google Sheet nueva (ahí se guardarán los mensajes).
- *  2. En esa Sheet: menú  Extensiones > Apps Script.
- *  3. Borra el contenido y pega TODO este archivo.
- *  4. Cambia el valor de CORREO_DESTINO por el correo que debe recibir el aviso.
- *  5. Guarda. Luego:  Implementar > Nueva implementación.
- *       - Tipo: Aplicación web
- *       - Ejecutar como: Yo (tu cuenta)
+ *  1. Cambia CORREO_DESTINO por TU correo real (abajo).
+ *  2. Guarda (icono de disco).
+ *  3. Implementar > Gestionar implementaciones > ✏️ editar
+ *       - Versión: "Versión nueva"   <-- SIN ESTO, LA URL SIGUE VIEJA
+ *       - Ejecutar como: Yo
  *       - Quién tiene acceso: Cualquier usuario
- *  6. Copia la URL que termina en  /exec  y pégala en contactanos-v2.html,
- *     en la constante  APPS_SCRIPT_URL.
- *  7. La primera vez te pedirá autorizar permisos (Sheets + Gmail). Acepta.
+ *       - Implementar
+ *  4. La primera vez autoriza los permisos (Gmail + Sheets).
+ *  5. Prueba abriendo la URL /exec en el navegador: debe decir
+ *     "endpoint activo". Luego prueba el formulario de la web.
+ *
+ *  TIP para depurar: Apps Script > menú "Ejecuciones" muestra cada
+ *  llamada y si hubo error (p. ej. correo inválido o permisos).
  * ------------------------------------------------------------
  */
 
-// 👉 Cambia este correo por el que debe recibir los mensajes
+// 👉 CAMBIA ESTO por el correo que debe recibir los mensajes
 const CORREO_DESTINO = "correo-que-recibe@ejemplo.com";
 
-// Nombre de la pestaña donde se guardan los mensajes (se crea sola si no existe)
+// Pestaña donde se guardan los mensajes (se crea sola si no existe)
 const NOMBRE_HOJA = "Mensajes";
 
+
+// Punto de entrada para POST (lo usa el formulario de la web)
 function doPost(e) {
+  return procesar(e);
+}
+
+// Punto de entrada para GET: permite probar desde el navegador
+//   .../exec                         -> muestra "endpoint activo"
+//   .../exec?nombre=Ana&correo=a@a.co&mensaje=hola  -> guarda y envía (prueba)
+function doGet(e) {
+  if (e && e.parameter && (e.parameter.nombre || e.parameter.mensaje)) {
+    return procesar(e);
+  }
+  return ContentService.createTextOutput("Ser Café — endpoint de contacto activo.");
+}
+
+
+function procesar(e) {
   try {
     const datos = (e && e.parameter) ? e.parameter : {};
 
@@ -44,7 +60,7 @@ function doPost(e) {
     const mensaje  = (datos.mensaje  || "").toString().trim();
     const fecha    = new Date();
 
-    // 1) Guardar en la hoja
+    // 1) Guardar SIEMPRE en la hoja (aunque luego falle el correo)
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     let hoja = ss.getSheetByName(NOMBRE_HOJA);
     if (!hoja) {
@@ -53,34 +69,38 @@ function doPost(e) {
     }
     hoja.appendRow([fecha, nombre, correo, telefono, mensaje]);
 
-    // 2) Enviar correo de aviso
-    const cuerpo =
-      "Nuevo mensaje desde el formulario de Ser Café:\n\n" +
-      "Nombre: "   + nombre   + "\n" +
-      "Correo: "   + correo   + "\n" +
-      "Teléfono: " + telefono + "\n\n" +
-      "Mensaje:\n" + mensaje  + "\n\n" +
-      "Fecha: " + fecha;
+    // 2) Enviar correo de aviso (si falla, se registra pero no rompe el guardado)
+    let correoEnviado = false;
+    let errorCorreo = "";
+    try {
+      MailApp.sendEmail({
+        to: CORREO_DESTINO,
+        subject: "📩 Nuevo contacto Ser Café — " + (nombre || "sin nombre"),
+        body:
+          "Nuevo mensaje desde el formulario de Ser Café:\n\n" +
+          "Nombre: "   + nombre   + "\n" +
+          "Correo: "   + correo   + "\n" +
+          "Teléfono: " + telefono + "\n\n" +
+          "Mensaje:\n" + mensaje  + "\n\n" +
+          "Fecha: " + fecha,
+        replyTo: correo || CORREO_DESTINO
+      });
+      correoEnviado = true;
+    } catch (errMail) {
+      errorCorreo = errMail.toString();
+      Logger.log("Error al enviar correo: " + errorCorreo);
+    }
 
-    MailApp.sendEmail({
-      to: CORREO_DESTINO,
-      subject: "📩 Nuevo contacto Ser Café — " + (nombre || "sin nombre"),
-      body: cuerpo,
-      replyTo: correo || CORREO_DESTINO
-    });
-
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return salida({ ok: true, correoEnviado: correoEnviado, errorCorreo: errorCorreo });
 
   } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: false, error: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return salida({ ok: false, error: err.toString() });
   }
 }
 
-// Permite abrir la URL en el navegador y comprobar que está publicada
-function doGet() {
-  return ContentService.createTextOutput("Ser Café — endpoint de contacto activo.");
+
+function salida(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
 }
