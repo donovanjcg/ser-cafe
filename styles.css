@@ -124,10 +124,17 @@ nav a:hover{
 }
 
 .img50 {
-    max-width: 70%;
+    max-width: 80%;
     height: auto;
     padding: 0;
-    border-radius: 0.55rem;
+    border-radius: 1rem;
+    box-shadow: 0 12px 30px rgba(69, 9, 90, 0.18);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.img50:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 18px 40px rgba(69, 9, 90, 0.28);
 }
 
 .tiendaimg {
@@ -386,10 +393,12 @@ body{
 
     .contenedorimg {
         width: 100%;
+        max-width: 100%;
     }
 
     .img50 {
         width: 100%;
+        max-width: 420px;
         padding: 0;
     }
 
@@ -1557,6 +1566,32 @@ h4.textoh3 {
     border-radius: 18px;
 }
 
+/* Imágenes de la sección "historia" (Nosotros): encuadre uniforme y estilizado */
+.contenedor2c3 .contenedorimg {
+    max-width: 320px;
+}
+
+.contenedor2c3 .img50 {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+@media (max-width: 700px) {
+    .contenedor2c3 {
+        flex-direction: column;
+    }
+    .contenedor2c3 .contenedorimg,
+    .contenedor2c3 .img50 {
+        max-width: 420px;
+    }
+    .contenedor2c3 .img50 {
+        width: 100%;
+    }
+}
+
 /* ============================================================
    TOOLTIP FLOTANTE DE PERFIL (tienda, al pasar por un producto)
    ============================================================ */
@@ -1682,5 +1717,155 @@ h4.textoh3 {
 @media (hover: none) {
     .perfil-flotante {
         display: none;
+    }
+}
+
+/* ============================================================
+   TRAYECTORIA "DEL CULTIVO A TU TAZA" (página Nosotros)
+   ============================================================ */
+.proceso {
+    max-width: 820px;
+    margin: 3rem auto;
+    padding: 0 1.2rem;
+}
+
+.proceso-titulo {
+    text-align: center;
+    margin-bottom: 0.4rem;
+}
+
+.proceso-intro {
+    text-align: center;
+    color: #7a6383;
+    max-width: 540px;
+    margin: 0 auto 2.5rem;
+    font-size: 1.05rem;
+}
+
+/* La lista es la línea vertical de la trayectoria */
+.trayectoria {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.trayectoria::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 2rem;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--color-principal), #b98fcf);
+    border-radius: 3px;
+}
+
+.paso {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.6rem 0 1.8rem;
+}
+
+.paso:last-child {
+    padding-bottom: 0;
+}
+
+/* Nodo con el ícono sobre la línea */
+.paso-icono {
+    position: relative;
+    z-index: 1;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--color-principal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    box-shadow: 0 6px 16px rgba(69, 9, 90, 0.18);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.paso:hover .paso-icono {
+    transform: scale(1.08);
+    box-shadow: 0 10px 22px rgba(69, 9, 90, 0.3);
+}
+
+/* Número de paso tenue, como marca de agua */
+.paso-num {
+    position: absolute;
+    top: -0.3rem;
+    left: 3.2rem;
+    font-family: Anton, sans-serif;
+    font-size: 2.4rem;
+    color: rgba(89, 12, 114, 0.12);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.paso-texto {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    border-left: 4px solid var(--color-principal);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.paso:hover .paso-texto {
+    transform: translateX(4px);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+}
+
+.paso-texto h4 {
+    margin: 0 0 0.35rem;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.2rem;
+    color: var(--color-principal);
+}
+
+.paso-texto p {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    text-align: left;
+}
+
+@media (max-width: 700px) {
+    .trayectoria::before {
+        left: 1.6rem;
+    }
+    .paso {
+        grid-template-columns: 3.2rem 1fr;
+        gap: 0.8rem;
+        padding-bottom: 1.4rem;
+    }
+    .paso-icono {
+        width: 3.2rem;
+        height: 3.2rem;
+        font-size: 1.35rem;
+    }
+    .paso-num {
+        left: 2.5rem;
+        font-size: 1.9rem;
+    }
+    .paso-texto {
+        padding: 0.8rem 0.9rem;
+    }
+    .paso-texto h4 {
+        font-size: 1.05rem;
+    }
+    .paso-texto p {
+        font-size: 0.95rem;
+        text-align: left;
+        padding: 0;
     }
 }
