@@ -26,123 +26,237 @@
 
     <section class="banner-tienda">
         <h1>Perfil de nuestro Café</h1>
-        <p>Cada taza cuenta una historia. Conoce las variedades que cultivamos, sus
-            presentaciones y las características que las hacen únicas.</p>
+        <p>Cada taza cuenta una historia. Conoce las variedades que cultivamos, su
+            perfil sensorial y las características que las hacen únicas.</p>
     </section>
 
     <!-- ============ CASTILLO SUR ============ -->
-    <div class="variedad">
-        <div class="carrusel">
-            <div class="carrusel-slide activo">
-                <img src="Img/Grano_Castillo-01.png" alt="Grano Castillo Sur">
+    <section class="perfil-panel">
+        <!-- Columna izquierda: perfil sensorial -->
+        <div class="perfil-sensorial">
+            <h2 class="perfil-titulo">Perfil</h2>
+
+            <ul class="notas">
+                <li><span>Naranja</span><span class="nota-icono">🍊</span></li>
+                <li><span>Chocolate</span><span class="nota-icono">🍫</span></li>
+                <li><span>Caramelo</span><span class="nota-icono">🍮</span></li>
+            </ul>
+
+            <div class="medidor">
+                <span class="medidor-label">Nivel de tostión</span>
+                <div class="barra" data-nivel="3"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/250gr.png" alt="Presentación 250 g">
+            <div class="medidor">
+                <span class="medidor-label">Acidez</span>
+                <div class="barra" data-nivel="4"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/500gr.png" alt="Presentación 500 g">
+            <div class="medidor">
+                <span class="medidor-label">Complejidad</span>
+                <div class="barra" data-nivel="3"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/2500gr.png" alt="Presentación 2500 g">
-            </div>
-            <div class="carrusel-slide">
-                <img src="Img/finca.jpg" alt="Finca Lucitania">
-            </div>
-            <button class="carrusel-prev" aria-label="Anterior">‹</button>
-            <button class="carrusel-next" aria-label="Siguiente">›</button>
-            <div class="carrusel-puntos"></div>
         </div>
 
-        <div class="variedad-info">
-            <h2>Castillo Sur</h2>
-            <section class="caracteristicas">
-                <div class="card"><div class="icono">📍</div><h3>Origen</h3><p>La Florida, Nariño</p></div>
-                <div class="card"><div class="icono">⛰️</div><h3>Altura</h3><p>1.978 msnm</p></div>
-                <div class="card"><div class="icono">🌱</div><h3>Variedad</h3><p>Castillo Sur</p></div>
-                <div class="card"><div class="icono">💧</div><h3>Proceso</h3><p>Lavado y secado al sol</p></div>
-                <div class="card"><div class="icono">☕</div><h3>Aroma</h3><p>Chocolate, caramelo, naranja</p></div>
-                <div class="card"><div class="icono">🍫</div><h3>Sabor</h3><p>Chocolate y caramelo</p></div>
-                <div class="card"><div class="icono">🍋</div><h3>Acidez</h3><p>Cítrica alta</p></div>
-                <div class="card"><div class="icono">🔥</div><h3>Tostión</h3><p>Media</p></div>
-            </section>
+        <!-- Columna central: imagen rotativa -->
+        <div class="perfil-imagen">
+            <div class="carrusel">
+                <div class="carrusel-slide activo">
+                    <img src="Img/Grano_Castillo-01.png" alt="Grano Castillo Sur">
+                </div>
+                <div class="carrusel-slide">
+                    <img src="Img/finca.jpg" alt="Finca Lucitania">
+                </div>
+                <div class="carrusel-slide">
+                    <img src="Img/Presentaciones-01.png" alt="Presentaciones Ser Café">
+                </div>
+                <button class="carrusel-prev" aria-label="Anterior">‹</button>
+                <button class="carrusel-next" aria-label="Siguiente">›</button>
+                <div class="carrusel-puntos"></div>
+            </div>
         </div>
-    </div>
+
+        <!-- Columna derecha: ficha de la finca -->
+        <div class="perfil-ficha">
+            <h2 class="finca-nombre">Finca Lucitania</h2>
+            <p class="finca-ubicacion">Matituy, La Florida, Nariño, Colombia</p>
+
+            <ul class="ficha-datos">
+                <li><strong>Proceso:</strong> Lavado y secado al sol</li>
+                <li><strong>Variedad:</strong> Castillo Sur</li>
+                <li><strong>Altura:</strong> 1.978 msnm</li>
+            </ul>
+
+            <div class="ficha-bloque">
+                <span class="ficha-label">Gramaje disponible</span>
+                <div class="ficha-chips">
+                    <span class="chip chip-activo">250 g</span>
+                    <span class="chip">500 g</span>
+                    <span class="chip">2500 g</span>
+                </div>
+            </div>
+
+            <div class="ficha-bloque">
+                <span class="ficha-label">Molienda</span>
+                <div class="ficha-chips grid-2">
+                    <span class="chip">Grano</span>
+                    <span class="chip">Media</span>
+                    <span class="chip">Fina</span>
+                    <span class="chip">Gruesa</span>
+                </div>
+            </div>
+
+            <a href="tienda.html" class="btn-tienda btn-perfil">🛒 Comprar Castillo Sur</a>
+        </div>
+    </section>
 
     <!-- ============ CHIROSO ============ -->
-    <div class="variedad">
-        <div class="carrusel">
-            <div class="carrusel-slide activo">
-                <img src="Img/Grano_Chiroso-02.png" alt="Grano Chiroso">
+    <section class="perfil-panel panel-alt">
+        <div class="perfil-sensorial">
+            <h2 class="perfil-titulo">Perfil</h2>
+
+            <ul class="notas">
+                <li><span>Naranja</span><span class="nota-icono">🍊</span></li>
+                <li><span>Durazno</span><span class="nota-icono">🍑</span></li>
+                <li><span>Miel</span><span class="nota-icono">🍯</span></li>
+            </ul>
+
+            <div class="medidor">
+                <span class="medidor-label">Nivel de tostión</span>
+                <div class="barra" data-nivel="3"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/250gr.png" alt="Presentación 250 g">
+            <div class="medidor">
+                <span class="medidor-label">Acidez</span>
+                <div class="barra" data-nivel="5"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/500gr.png" alt="Presentación 500 g">
+            <div class="medidor">
+                <span class="medidor-label">Complejidad</span>
+                <div class="barra" data-nivel="4"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/2500gr.png" alt="Presentación 2500 g">
-            </div>
-            <div class="carrusel-slide">
-                <img src="Img/fincaL.jpeg" alt="Finca Lucitania">
-            </div>
-            <button class="carrusel-prev" aria-label="Anterior">‹</button>
-            <button class="carrusel-next" aria-label="Siguiente">›</button>
-            <div class="carrusel-puntos"></div>
         </div>
 
-        <div class="variedad-info">
-            <h2>Chiroso</h2>
-            <section class="caracteristicas">
-                <div class="card"><div class="icono">📍</div><h3>Origen</h3><p>Urrao, Antioquia</p></div>
-                <div class="card"><div class="icono">⛰️</div><h3>Altura</h3><p>1.958 msnm</p></div>
-                <div class="card"><div class="icono">🌱</div><h3>Variedad</h3><p>Chiroso</p></div>
-                <div class="card"><div class="icono">💧</div><h3>Proceso</h3><p>Lavado</p></div>
-                <div class="card"><div class="icono">☕</div><h3>Aroma</h3><p>Panela, miel, naranja, durazno</p></div>
-                <div class="card"><div class="icono">🍫</div><h3>Sabor</h3><p>Frutal: naranja y durazno, con limoncillo</p></div>
-                <div class="card"><div class="icono">🍋</div><h3>Acidez</h3><p>Cítrica alta</p></div>
-                <div class="card"><div class="icono">🔥</div><h3>Tostión</h3><p>Media</p></div>
-            </section>
+        <div class="perfil-imagen">
+            <div class="carrusel">
+                <div class="carrusel-slide activo">
+                    <img src="Img/Grano_Chiroso-02.png" alt="Grano Chiroso">
+                </div>
+                <div class="carrusel-slide">
+                    <img src="Img/fincaL.jpeg" alt="Finca Lucitania">
+                </div>
+                <div class="carrusel-slide">
+                    <img src="Img/Presentaciones-01.png" alt="Presentaciones Ser Café">
+                </div>
+                <button class="carrusel-prev" aria-label="Anterior">‹</button>
+                <button class="carrusel-next" aria-label="Siguiente">›</button>
+                <div class="carrusel-puntos"></div>
+            </div>
         </div>
-    </div>
+
+        <div class="perfil-ficha">
+            <h2 class="finca-nombre">Variedad Chiroso</h2>
+            <p class="finca-ubicacion">Urrao, Antioquia, Colombia</p>
+
+            <ul class="ficha-datos">
+                <li><strong>Proceso:</strong> Lavado</li>
+                <li><strong>Variedad:</strong> Chiroso</li>
+                <li><strong>Altura:</strong> 1.958 msnm</li>
+            </ul>
+
+            <div class="ficha-bloque">
+                <span class="ficha-label">Gramaje disponible</span>
+                <div class="ficha-chips">
+                    <span class="chip chip-activo">250 g</span>
+                    <span class="chip">500 g</span>
+                    <span class="chip">2500 g</span>
+                </div>
+            </div>
+
+            <div class="ficha-bloque">
+                <span class="ficha-label">Molienda</span>
+                <div class="ficha-chips grid-2">
+                    <span class="chip">Grano</span>
+                    <span class="chip">Media</span>
+                    <span class="chip">Fina</span>
+                    <span class="chip">Gruesa</span>
+                </div>
+            </div>
+
+            <a href="tienda.html" class="btn-tienda btn-perfil">🛒 Comprar Chiroso</a>
+        </div>
+    </section>
 
     <!-- ============ CATIMOR ============ -->
-    <div class="variedad">
-        <div class="carrusel">
-            <div class="carrusel-slide activo">
-                <img src="Img/Grano_Castillo-01.png" alt="Grano Catimor">
+    <section class="perfil-panel">
+        <div class="perfil-sensorial">
+            <h2 class="perfil-titulo">Perfil</h2>
+
+            <ul class="notas">
+                <li><span>Cacao</span><span class="nota-icono">🍫</span></li>
+                <li><span>Nuez</span><span class="nota-icono">🌰</span></li>
+                <li><span>Frutos secos</span><span class="nota-icono">🥜</span></li>
+            </ul>
+
+            <div class="medidor">
+                <span class="medidor-label">Nivel de tostión</span>
+                <div class="barra" data-nivel="4"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/250gr.png" alt="Presentación 250 g">
+            <div class="medidor">
+                <span class="medidor-label">Acidez</span>
+                <div class="barra" data-nivel="2"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/500gr.png" alt="Presentación 500 g">
+            <div class="medidor">
+                <span class="medidor-label">Complejidad</span>
+                <div class="barra" data-nivel="3"></div>
             </div>
-            <div class="carrusel-slide">
-                <img src="Img/2500gr.png" alt="Presentación 2500 g">
-            </div>
-            <div class="carrusel-slide">
-                <img src="Img/Fincafe.jpeg" alt="Finca Lucitania">
-            </div>
-            <button class="carrusel-prev" aria-label="Anterior">‹</button>
-            <button class="carrusel-next" aria-label="Siguiente">›</button>
-            <div class="carrusel-puntos"></div>
         </div>
 
-        <div class="variedad-info">
-            <h2>Catimor</h2>
-            <section class="caracteristicas">
-                <div class="card"><div class="icono">📍</div><h3>Origen</h3><p>Nariño, Colombia</p></div>
-                <div class="card"><div class="icono">⛰️</div><h3>Altura</h3><p>1.900 msnm</p></div>
-                <div class="card"><div class="icono">🌱</div><h3>Variedad</h3><p>Catimor</p></div>
-                <div class="card"><div class="icono">💧</div><h3>Proceso</h3><p>Lavado</p></div>
-                <div class="card"><div class="icono">☕</div><h3>Aroma</h3><p>Chocolate y frutos secos</p></div>
-                <div class="card"><div class="icono">🍫</div><h3>Sabor</h3><p>Cuerpo intenso, cacao y nuez</p></div>
-                <div class="card"><div class="icono">🍋</div><h3>Acidez</h3><p>Media</p></div>
-                <div class="card"><div class="icono">🔥</div><h3>Tostión</h3><p>Media-alta</p></div>
-            </section>
+        <div class="perfil-imagen">
+            <div class="carrusel">
+                <div class="carrusel-slide activo">
+                    <img src="Img/Grano_Castillo-01.png" alt="Grano Catimor">
+                </div>
+                <div class="carrusel-slide">
+                    <img src="Img/Fincafe.jpeg" alt="Finca Lucitania">
+                </div>
+                <div class="carrusel-slide">
+                    <img src="Img/Presentaciones-01.png" alt="Presentaciones Ser Café">
+                </div>
+                <button class="carrusel-prev" aria-label="Anterior">‹</button>
+                <button class="carrusel-next" aria-label="Siguiente">›</button>
+                <div class="carrusel-puntos"></div>
+            </div>
         </div>
-    </div>
+
+        <div class="perfil-ficha">
+            <h2 class="finca-nombre">Variedad Catimor</h2>
+            <p class="finca-ubicacion">Nariño, Colombia</p>
+
+            <ul class="ficha-datos">
+                <li><strong>Proceso:</strong> Lavado</li>
+                <li><strong>Variedad:</strong> Catimor</li>
+                <li><strong>Altura:</strong> 1.900 msnm</li>
+            </ul>
+
+            <div class="ficha-bloque">
+                <span class="ficha-label">Gramaje disponible</span>
+                <div class="ficha-chips">
+                    <span class="chip chip-activo">250 g</span>
+                    <span class="chip">500 g</span>
+                    <span class="chip">2500 g</span>
+                </div>
+            </div>
+
+            <div class="ficha-bloque">
+                <span class="ficha-label">Molienda</span>
+                <div class="ficha-chips grid-2">
+                    <span class="chip">Grano</span>
+                    <span class="chip">Media</span>
+                    <span class="chip">Fina</span>
+                    <span class="chip">Gruesa</span>
+                </div>
+            </div>
+
+            <a href="tienda.html" class="btn-tienda btn-perfil">🛒 Comprar Catimor</a>
+        </div>
+    </section>
 
     <script src="componentes.js"></script>
 </body>

@@ -1080,55 +1080,254 @@ footer,
     }
 }
 
-/* ---------- PÁGINA PERFIL (variedades estilo producto) ---------- */
-.variedad {
+/* ============================================================
+   PÁGINA PERFIL (paneles sensoriales estilo ficha de origen)
+   ============================================================ */
+.perfil-panel {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.1fr 1.2fr;
     gap: 2.5rem;
     align-items: center;
-    max-width: 1150px;
-    margin: 2.5rem auto;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.08);
+    padding: 3.5rem 2rem;
+    background: linear-gradient(135deg, var(--color-principal) 0%, #45095a 100%);
+    color: #f3e9d8;
 }
 
-.variedad-info h2 {
-    margin-top: 0;
-    color: var(--color-principal);
+.perfil-panel.panel-alt {
+    background: linear-gradient(135deg, #782494 0%, #590C72 100%);
+}
+
+/* ---------- Columna izquierda: perfil sensorial ---------- */
+.perfil-sensorial {
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.perfil-titulo {
+    font-family: Anton, sans-serif;
+    font-size: 3rem;
+    color: var(--color-texto-hueso);
+    margin: 0 0 1.4rem;
+    text-align: left;
+    letter-spacing: 0.02em;
+}
+
+.notas {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.notas li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px solid var(--color-texto-hueso);
+    border-radius: 0.6rem;
+    padding: 0.45rem 0.8rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    color: var(--color-texto-hueso);
+}
+
+.nota-icono {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-texto-hueso);
+    border-radius: 0.4rem;
+    font-size: 1.1rem;
+}
+
+/* Medidores (tostión, acidez, complejidad) */
+.medidor {
+    margin-bottom: 1.3rem;
+}
+
+.medidor-label {
+    display: block;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-texto-hueso);
+    margin-bottom: 0.5rem;
+}
+
+.barra {
+    position: relative;
+    height: 2px;
+    background: var(--color-texto-hueso);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Marcas de la escala (5 puntos) */
+.barra::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        to right,
+        var(--color-texto-hueso) 0 2px,
+        transparent 2px calc(25% ) );
+    background-size: 100% 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+}
+
+/* Marcas verticales */
+.barra span.tick { display: none; }
+
+/* Punto indicador del nivel */
+.barra::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-texto-hueso);
+    transform: translate(-50%, -50%);
+    left: var(--pos, 50%);
+    box-shadow: 0 0 0 4px rgba(239, 239, 185, 0.25);
+}
+
+.barra[data-nivel="1"] { --pos: 10%; }
+.barra[data-nivel="2"] { --pos: 30%; }
+.barra[data-nivel="3"] { --pos: 50%; }
+.barra[data-nivel="4"] { --pos: 70%; }
+.barra[data-nivel="5"] { --pos: 90%; }
+
+/* ---------- Columna derecha: ficha de la finca ---------- */
+.perfil-ficha {
+    max-width: 420px;
+}
+
+.finca-nombre {
+    font-family: Anton, sans-serif;
+    font-size: 2.6rem;
+    color: var(--color-texto-hueso);
+    margin: 0 0 0.3rem;
+    text-align: left;
+    line-height: 1.05;
+}
+
+.finca-ubicacion {
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    color: #f3e9d8;
+    margin: 0 0 1.3rem;
+    font-size: 1.05rem;
     text-align: left;
 }
 
-.variedad-info .caracteristicas {
-    margin: 1rem 0 0;
-    max-width: 100%;
+.ficha-datos {
+    list-style: none;
     padding: 0;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-}
-
-.variedad-info .card {
-    padding: 0.6rem;
-}
-
-.variedad-info .card h3 {
+    margin: 0 0 1.6rem;
+    font-family: Montserrat, sans-serif;
     font-size: 1rem;
+    line-height: 1.9;
+    color: #f3e9d8;
 }
 
-.variedad-info .card p {
+.ficha-datos strong {
+    color: var(--color-texto-hueso);
+}
+
+.ficha-bloque {
+    margin-bottom: 1.3rem;
+}
+
+.ficha-label {
+    display: block;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    color: var(--color-texto-hueso);
+    margin-bottom: 0.6rem;
+}
+
+.ficha-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.ficha-chips.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border: 2px solid var(--color-texto-hueso);
+    border-radius: 0.5rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    color: var(--color-texto-hueso);
+    background: rgba(255, 255, 255, 0.05);
     font-size: 0.95rem;
+}
+
+.chip-activo {
+    background: var(--color-texto-hueso);
+    color: var(--color-principal);
+}
+
+.btn-perfil {
+    display: inline-block;
+    margin-top: 0.6rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-family: Montserrat, sans-serif;
+    background: var(--color-texto-hueso);
+    color: var(--color-principal);
+    border: none;
+    padding: 0.9rem 1.4rem;
+    border-radius: 0.6rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-perfil:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Imagen central del panel */
+.perfil-imagen {
+    display: flex;
+    justify-content: center;
 }
 
 /* ---------- CARRUSEL ---------- */
 .carrusel {
     position: relative;
     width: 100%;
-    max-width: 460px;
+    max-width: 420px;
     margin: 0 auto;
     aspect-ratio: 1 / 1;
     border-radius: 16px;
     overflow: hidden;
-    background: #f3ebf7;
+    background: transparent;
+}
+
+/* Dentro del panel de perfil el carrusel es transparente;
+   en otros contextos conserva su fondo claro */
+.perfil-imagen .carrusel {
+    background: transparent;
 }
 
 .carrusel-slide {
@@ -1209,17 +1408,35 @@ footer,
     background: var(--color-principal);
 }
 
-@media (max-width: 760px) {
-    .variedad {
+@media (max-width: 980px) {
+    .perfil-panel {
         grid-template-columns: 1fr;
-        padding: 1.2rem;
+        gap: 2rem;
+        padding: 2.5rem 1.5rem;
     }
-    .variedad-info h2 {
+    .perfil-sensorial,
+    .perfil-ficha {
+        max-width: 460px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .perfil-imagen { order: -1; }
+    .perfil-titulo,
+    .finca-nombre,
+    .finca-ubicacion {
         text-align: center;
     }
     .carrusel {
         max-width: 320px;
     }
+}
+
+@media (max-width: 480px) {
+    .ficha-chips.grid-2 {
+        grid-template-columns: 1fr 1fr;
+    }
+    .perfil-titulo { font-size: 2.4rem; }
+    .finca-nombre { font-size: 2.1rem; }
 }
 
 /* ---------- SECCIONES NOSOTROS ---------- */
