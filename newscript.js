@@ -338,22 +338,43 @@ function renderProductos() {
         );
 
         // --- Tooltip flotante con resumen del perfil ---
+        // Solo se muestra sobre la zona superior (imagen, nombre, precio).
+        // Al bajar a la zona de controles (molienda, cantidad, agregar)
+        // el tooltip desaparece para no estorbar.
         const tarjeta = clone.querySelector(".producto");
         if (tarjeta) {
-            tarjeta.addEventListener("mouseenter", () => {
+
+            // ¿El cursor está sobre un control interactivo o la zona de molienda hacia abajo?
+            const enZonaControles = (e) => {
+                const t = e.target;
+                if (t.closest(".molienda") ||
+                    t.closest(".cantidad-box") ||
+                    t.closest(".btn-agregar") ||
+                    t.closest("label")) {
+                    return true;
+                }
+                // Cualquier punto por debajo del inicio del selector de molienda
+                const molienda = tarjeta.querySelector(".molienda");
+                if (molienda) {
+                    const limite = molienda.getBoundingClientRect().top;
+                    if (e.clientY >= limite) return true;
+                }
+                return false;
+            };
+
+            tarjeta.addEventListener("mouseenter", (e) => {
+                if (enZonaControles(e)) return;
                 mostrarPerfilFlotante(producto, tarjeta);
             });
             tarjeta.addEventListener("mousemove", (e) => {
+                if (enZonaControles(e)) {
+                    ocultarPerfilFlotante();
+                    return;
+                }
+                mostrarPerfilFlotante(producto, tarjeta);
                 posicionarPerfilFlotante(e);
             });
             tarjeta.addEventListener("mouseleave", () => {
-                ocultarPerfilFlotante();
-            });
-            // Soporte táctil / foco
-            tarjeta.addEventListener("focusin", () => {
-                mostrarPerfilFlotante(producto, tarjeta);
-            });
-            tarjeta.addEventListener("focusout", () => {
                 ocultarPerfilFlotante();
             });
         }
@@ -396,6 +417,13 @@ function mostrarPerfilFlotante(producto, tarjeta) {
     if (!perfil) return;
 
     const tip = obtenerTooltip();
+
+    // Si ya está mostrando este mismo producto, solo asegurar visibilidad
+    const clave = producto.id + "-" + producto.presentacion;
+    if (tip.dataset.clave === clave && tip.classList.contains("activo")) {
+        return;
+    }
+    tip.dataset.clave = clave;
 
     const notasHTML = perfil.notas.map(n =>
         `<span class="pf-nota">${n.icono} ${n.nombre}</span>`
@@ -458,7 +486,10 @@ function posicionarPerfilFlotante(e) {
 
 function ocultarPerfilFlotante() {
     const tip = document.getElementById("perfilFlotante");
-    if (tip) tip.classList.remove("activo");
+    if (tip) {
+        tip.classList.remove("activo");
+        tip.dataset.clave = "";
+    }
 }
 
 
