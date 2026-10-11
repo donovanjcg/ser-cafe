@@ -1089,12 +1089,26 @@ footer,
     gap: 2.5rem;
     align-items: center;
     padding: 3.5rem 2rem;
-    background: linear-gradient(135deg, var(--color-principal) 0%, #45095a 100%);
-    color: #f3e9d8;
+    /* Fondo por defecto; cada variedad lo sobrescribe más abajo */
+    background: linear-gradient(135deg, #7a3c93 0%, #5e2d78 100%);
+    color: #fbf3e4;
 }
 
-.perfil-panel.panel-alt {
-    background: linear-gradient(135deg, #782494 0%, #590C72 100%);
+/* --- Colores por variedad: más claros, con contraste, dentro de la marca --- */
+
+/* Castillo Sur: lila-morado luminoso */
+.perfil-panel.panel-castillo {
+    background: linear-gradient(135deg, #8a4ea6 0%, #6a3488 100%);
+}
+
+/* Chiroso: lila rosado (acentos cítricos / durazno) */
+.perfil-panel.panel-chiroso {
+    background: linear-gradient(135deg, #a85a9d 0%, #7d3e86 100%);
+}
+
+/* Catimor: morado cálido con matiz vino (cacao / nuez) */
+.perfil-panel.panel-catimor {
+    background: linear-gradient(135deg, #8f4a73 0%, #6e3270 100%);
 }
 
 /* ---------- Columna izquierda: perfil sensorial ---------- */
@@ -1541,4 +1555,132 @@ h4.textoh3 {
 .contenedor2c .img50 {
     object-fit: cover;
     border-radius: 18px;
+}
+
+/* ============================================================
+   TOOLTIP FLOTANTE DE PERFIL (tienda, al pasar por un producto)
+   ============================================================ */
+.perfil-flotante {
+    position: fixed;
+    z-index: 1300;
+    width: 290px;
+    max-width: 85vw;
+    background: #ffffff;
+    color: #3a2140;
+    border: 1px solid #e4d2ec;
+    border-radius: 14px;
+    box-shadow: 0 14px 36px rgba(69, 9, 90, 0.28);
+    padding: 1rem 1.1rem;
+    font-family: Montserrat, sans-serif;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.perfil-flotante.activo {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.perfil-flotante .pf-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    border-bottom: 2px solid #f0e6f5;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.perfil-flotante .pf-header h4 {
+    margin: 0;
+    font-family: Anton, sans-serif;
+    font-size: 1.3rem;
+    color: var(--color-principal);
+    letter-spacing: 0.01em;
+}
+
+.perfil-flotante .pf-presentacion {
+    background: var(--color-principal);
+    color: var(--color-texto-hueso);
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.perfil-flotante .pf-origen {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4a2b56;
+    line-height: 1.35;
+}
+
+.perfil-flotante .pf-icono {
+    flex-shrink: 0;
+}
+
+.perfil-flotante .pf-sub {
+    font-size: 0.8rem;
+    color: #7a6383;
+    margin: 0.35rem 0 0.7rem;
+    line-height: 1.4;
+}
+
+.perfil-flotante .pf-notas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.perfil-flotante .pf-nota {
+    background: #f4ebf8;
+    color: var(--color-principal);
+    border: 1px solid #e2cfec;
+    border-radius: 999px;
+    padding: 0.22rem 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.perfil-flotante .pf-medidor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #4a2b56;
+    margin-top: 0.4rem;
+}
+
+.perfil-flotante .pf-escala {
+    display: flex;
+    gap: 0.28rem;
+}
+
+.perfil-flotante .pf-punto {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background: #e4d2ec;
+    display: inline-block;
+}
+
+.perfil-flotante .pf-punto.activo {
+    background: var(--color-principal);
+}
+
+/* En pantallas táctiles el tooltip puede resultar molesto: lo mantenemos
+   pero no se dispara sin hover real; en móvil se oculta por seguridad */
+@media (hover: none) {
+    .perfil-flotante {
+        display: none;
+    }
 }

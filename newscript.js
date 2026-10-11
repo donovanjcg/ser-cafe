@@ -2,6 +2,53 @@
 // PRODUCTOS
 // =========================
 
+// Perfil sensorial por variedad (se reutiliza en todas las presentaciones)
+const perfilesVariedad = {
+
+    "Castillo Sur": {
+        origen: "Finca Lucitania · Matituy, La Florida, Nariño",
+        altura: "1.978 msnm",
+        proceso: "Lavado y secado al sol",
+        notas: [
+            { nombre: "Naranja", icono: "🍊" },
+            { nombre: "Chocolate", icono: "🍫" },
+            { nombre: "Caramelo", icono: "🍮" }
+        ],
+        tostion: 3,
+        acidez: 4,
+        complejidad: 3
+    },
+
+    "Chiroso": {
+        origen: "Urrao, Antioquia",
+        altura: "1.958 msnm",
+        proceso: "Lavado",
+        notas: [
+            { nombre: "Naranja", icono: "🍊" },
+            { nombre: "Durazno", icono: "🍑" },
+            { nombre: "Miel", icono: "🍯" }
+        ],
+        tostion: 3,
+        acidez: 5,
+        complejidad: 4
+    },
+
+    "Catimor": {
+        origen: "Nariño, Colombia",
+        altura: "1.900 msnm",
+        proceso: "Lavado",
+        notas: [
+            { nombre: "Cacao", icono: "🍫" },
+            { nombre: "Nuez", icono: "🌰" },
+            { nombre: "Frutos secos", icono: "🥜" }
+        ],
+        tostion: 4,
+        acidez: 2,
+        complejidad: 3
+    }
+
+};
+
 const productos = [
 
     {
@@ -290,12 +337,128 @@ function renderProductos() {
             }
         );
 
+        // --- Tooltip flotante con resumen del perfil ---
+        const tarjeta = clone.querySelector(".producto");
+        if (tarjeta) {
+            tarjeta.addEventListener("mouseenter", () => {
+                mostrarPerfilFlotante(producto, tarjeta);
+            });
+            tarjeta.addEventListener("mousemove", (e) => {
+                posicionarPerfilFlotante(e);
+            });
+            tarjeta.addEventListener("mouseleave", () => {
+                ocultarPerfilFlotante();
+            });
+            // Soporte táctil / foco
+            tarjeta.addEventListener("focusin", () => {
+                mostrarPerfilFlotante(producto, tarjeta);
+            });
+            tarjeta.addEventListener("focusout", () => {
+                ocultarPerfilFlotante();
+            });
+        }
+
         contenedor.appendChild(
             clone
         );
 
     });
 
+}
+
+
+// =========================
+// TOOLTIP FLOTANTE DE PERFIL
+// =========================
+
+function construirPuntosMedidor(nivel) {
+    let html = "";
+    for (let i = 1; i <= 5; i++) {
+        html += `<span class="pf-punto ${i <= nivel ? "activo" : ""}"></span>`;
+    }
+    return html;
+}
+
+function obtenerTooltip() {
+    let tip = document.getElementById("perfilFlotante");
+    if (!tip) {
+        tip = document.createElement("div");
+        tip.id = "perfilFlotante";
+        tip.className = "perfil-flotante";
+        document.body.appendChild(tip);
+    }
+    return tip;
+}
+
+function mostrarPerfilFlotante(producto, tarjeta) {
+
+    const perfil = perfilesVariedad[producto.nombre];
+    if (!perfil) return;
+
+    const tip = obtenerTooltip();
+
+    const notasHTML = perfil.notas.map(n =>
+        `<span class="pf-nota">${n.icono} ${n.nombre}</span>`
+    ).join("");
+
+    tip.innerHTML = `
+        <div class="pf-header">
+            <h4>${producto.nombre}</h4>
+            <span class="pf-presentacion">${producto.presentacion} g</span>
+        </div>
+
+        <div class="pf-origen">
+            <span class="pf-icono">📍</span>
+            <span>${perfil.origen}</span>
+        </div>
+        <div class="pf-sub">⛰️ ${perfil.altura} · 💧 ${perfil.proceso}</div>
+
+        <div class="pf-notas">${notasHTML}</div>
+
+        <div class="pf-medidor">
+            <span>Tostión</span>
+            <span class="pf-escala">${construirPuntosMedidor(perfil.tostion)}</span>
+        </div>
+        <div class="pf-medidor">
+            <span>Acidez</span>
+            <span class="pf-escala">${construirPuntosMedidor(perfil.acidez)}</span>
+        </div>
+        <div class="pf-medidor">
+            <span>Complejidad</span>
+            <span class="pf-escala">${construirPuntosMedidor(perfil.complejidad)}</span>
+        </div>
+    `;
+
+    tip.classList.add("activo");
+}
+
+function posicionarPerfilFlotante(e) {
+    const tip = document.getElementById("perfilFlotante");
+    if (!tip || !tip.classList.contains("activo")) return;
+
+    const margen = 16;
+    const ancho = tip.offsetWidth;
+    const alto = tip.offsetHeight;
+
+    let x = e.clientX + margen;
+    let y = e.clientY + margen;
+
+    // Evitar que se salga por la derecha / abajo
+    if (x + ancho > window.innerWidth - 8) {
+        x = e.clientX - ancho - margen;
+    }
+    if (y + alto > window.innerHeight - 8) {
+        y = window.innerHeight - alto - 8;
+    }
+    if (y < 8) y = 8;
+
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+}
+
+function ocultarPerfilFlotante() {
+    const tip = document.getElementById("perfilFlotante");
+    if (tip) tip.classList.remove("activo");
 }
 
 
