@@ -1122,114 +1122,128 @@ footer,
 
 /* ---------- Columna izquierda: perfil sensorial ---------- */
 .perfil-sensorial {
-    max-width: 320px;
+    max-width: 340px;
     margin: 0 auto;
     width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 1.2rem;
+    padding: 1.8rem 1.6rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .perfil-titulo {
     font-family: Anton, sans-serif;
-    font-size: 3rem;
+    font-size: 2.4rem;
     color: var(--color-texto-hueso);
-    margin: 0 0 1.4rem;
+    margin: 0 0 1.3rem;
     text-align: left;
     letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.perfil-titulo::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: rgba(239, 239, 185, 0.4);
+    border-radius: 2px;
 }
 
 .notas {
     list-style: none;
     padding: 0;
-    margin: 0 0 2rem;
+    margin: 0 0 1.8rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.55rem;
 }
 
 .notas li {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.8rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 2px solid var(--color-texto-hueso);
-    border-radius: 0.6rem;
-    padding: 0.45rem 0.8rem;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.7rem;
+    padding: 0.5rem 0.7rem;
     font-family: Montserrat, sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--color-texto-hueso);
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.notas li:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(4px);
 }
 
 .nota-icono {
-    width: 2rem;
-    height: 2rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--color-texto-hueso);
-    border-radius: 0.4rem;
+    border-radius: 50%;
     font-size: 1.1rem;
 }
 
 /* Medidores (tostión, acidez, complejidad) */
 .medidor {
-    margin-bottom: 1.3rem;
+    margin-bottom: 1.1rem;
+}
+
+.medidor:last-child {
+    margin-bottom: 0;
 }
 
 .medidor-label {
-    display: block;
-    font-family: Montserrat, sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--color-texto-hueso);
-    margin-bottom: 0.5rem;
-}
-
-.barra {
-    position: relative;
-    height: 2px;
-    background: var(--color-texto-hueso);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-texto-hueso);
+    margin-bottom: 0.45rem;
 }
 
-/* Marcas de la escala (5 puntos) */
-.barra::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-        to right,
-        var(--color-texto-hueso) 0 2px,
-        transparent 2px calc(25% ) );
-    background-size: 100% 10px;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0;
+.medidor-valor {
+    font-weight: 600;
+    font-size: 0.78rem;
+    opacity: 0.75;
 }
 
-/* Marcas verticales */
-.barra span.tick { display: none; }
+/* Barra de progreso rellena */
+.barra {
+    position: relative;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
 
-/* Punto indicador del nivel */
 .barra::after {
     content: "";
     position: absolute;
-    top: 50%;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--color-texto-hueso);
-    transform: translate(-50%, -50%);
-    left: var(--pos, 50%);
-    box-shadow: 0 0 0 4px rgba(239, 239, 185, 0.25);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--pos, 50%);
+    background: linear-gradient(90deg, var(--color-texto-hueso), #fff);
+    border-radius: 999px;
+    transition: width 0.6s ease;
 }
 
-.barra[data-nivel="1"] { --pos: 10%; }
-.barra[data-nivel="2"] { --pos: 30%; }
-.barra[data-nivel="3"] { --pos: 50%; }
-.barra[data-nivel="4"] { --pos: 70%; }
-.barra[data-nivel="5"] { --pos: 90%; }
+.barra[data-nivel="1"] { --pos: 20%; }
+.barra[data-nivel="2"] { --pos: 40%; }
+.barra[data-nivel="3"] { --pos: 60%; }
+.barra[data-nivel="4"] { --pos: 80%; }
+.barra[data-nivel="5"] { --pos: 100%; }
 
 /* ---------- Columna derecha: ficha de la finca ---------- */
 .perfil-ficha {
@@ -1867,5 +1881,345 @@ h4.textoh3 {
         font-size: 0.95rem;
         text-align: left;
         padding: 0;
+    }
+}
+
+/* ============================================================
+   NOSOTROS v2 — propuesta editorial (archivo nosotros-v2.html)
+   Prefijo .n2 para no interferir con los estilos existentes
+   ============================================================ */
+
+.n2 {
+    color: #3a2140;
+    font-family: Montserrat, sans-serif;
+}
+
+.n2 h1, .n2 h2, .n2 h3 {
+    font-family: Anton, sans-serif;
+    color: var(--color-principal);
+    letter-spacing: 0.01em;
+}
+
+/* ---------- HERO ---------- */
+.n2-hero {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fbf3e4;
+    overflow: hidden;
+    background: linear-gradient(135deg, #45095a, #782494);
+}
+
+.n2-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.38;
+}
+
+.n2-hero-overlay {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    padding: 3rem 1.5rem;
+}
+
+.n2-hero h1 {
+    color: #fbf3e4;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    margin: 0 0 1rem;
+    line-height: 1.05;
+}
+
+.n2-hero p {
+    font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+    max-width: 620px;
+    margin: 0 auto;
+    color: #f3e4ef;
+    line-height: 1.6;
+}
+
+.n2-hero .n2-kicker {
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--color-texto-hueso);
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba(239, 239, 185, 0.5);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+}
+
+/* ---------- CONTENEDOR GENERAL ---------- */
+.n2-wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.n2-section {
+    padding: 4.5rem 0;
+}
+
+.n2-section.n2-alt {
+    background: var(--color-fondo-text);
+}
+
+.n2-eyebrow {
+    display: block;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    color: #a06bbd;
+    margin-bottom: 0.5rem;
+}
+
+.n2-section > .n2-wrap > h2 {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin: 0 0 2.5rem;
+}
+
+/* ---------- BLOQUES ALTERNADOS (zigzag) ---------- */
+.n2-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 3.5rem;
+}
+
+.n2-split:last-child {
+    margin-bottom: 0;
+}
+
+.n2-split.invertido .n2-split-media {
+    order: 2;
+}
+
+.n2-split-media img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 1.2rem;
+    box-shadow: 0 20px 45px rgba(69, 9, 90, 0.22);
+    display: block;
+}
+
+.n2-split-text h3 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    margin: 0 0 1rem;
+}
+
+.n2-split-text p {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: #4a3a52;
+    margin: 0 0 1rem;
+}
+
+/* ---------- FRANJA DE DATOS DESTACADOS ---------- */
+.n2-stats {
+    background: linear-gradient(135deg, var(--color-principal), #782494);
+    color: #fbf3e4;
+}
+
+.n2-stats .n2-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.n2-stat .n2-stat-num {
+    font-family: Anton, sans-serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    color: var(--color-texto-hueso);
+    line-height: 1;
+    display: block;
+}
+
+.n2-stat .n2-stat-label {
+    font-family: Montserrat, sans-serif;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    display: block;
+    color: #f3e4ef;
+}
+
+/* ---------- GALERÍA / PLACEHOLDERS PARA FOTOS FUTURAS ---------- */
+.n2-galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.n2-foto {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+}
+
+.n2-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.n2-foto:hover img {
+    transform: scale(1.06);
+}
+
+.n2-foto figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.9rem 1rem;
+    background: linear-gradient(to top, rgba(45, 9, 58, 0.85), transparent);
+    color: #fbf3e4;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Placeholder "foto por tomar" */
+.n2-foto.n2-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.6rem;
+    background:
+        repeating-linear-gradient(45deg, #efe2ff 0 12px, #e7d6f5 12px 24px);
+    border: 2px dashed #b98fcf;
+    color: var(--color-principal);
+    text-align: center;
+    padding: 1rem;
+    box-shadow: none;
+}
+
+.n2-foto.n2-placeholder .n2-ph-icono {
+    font-size: 2.2rem;
+}
+
+.n2-foto.n2-placeholder .n2-ph-titulo {
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.n2-foto.n2-placeholder .n2-ph-nota {
+    font-size: 0.78rem;
+    color: #7a5a90;
+    font-family: Montserrat, sans-serif;
+    max-width: 85%;
+}
+
+/* ---------- CITA / FRASE ---------- */
+.n2-cita {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.n2-cita blockquote {
+    font-family: Anton, sans-serif;
+    font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+    color: var(--color-principal);
+    line-height: 1.25;
+    margin: 0 0 1rem;
+}
+
+.n2-cita blockquote::before { content: "“"; }
+.n2-cita blockquote::after { content: "”"; }
+
+.n2-cita cite {
+    font-style: normal;
+    font-weight: 700;
+    color: #7a6383;
+    font-family: Montserrat, sans-serif;
+}
+
+/* ---------- CTA ---------- */
+.n2-cta {
+    text-align: center;
+    padding: 4rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-principal), #45095a);
+    color: #fbf3e4;
+}
+
+.n2-cta h2 {
+    color: #fbf3e4;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    margin: 0 0 1.5rem;
+}
+
+.n2-cta .btn-tienda {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 700;
+    font-family: Montserrat, sans-serif;
+    background: var(--color-texto-hueso);
+    color: var(--color-principal);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.6rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.n2-cta .btn-tienda:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    background: #fff;
+}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width: 820px) {
+    .n2-split {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+    .n2-split.invertido .n2-split-media {
+        order: 0;
+    }
+    .n2-split-text {
+        text-align: center;
+    }
+    .n2-split-media img {
+        max-width: 460px;
+        margin: 0 auto;
+    }
+    .n2-stats .n2-wrap {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+    .n2-galeria {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .n2-section {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 460px) {
+    .n2-galeria {
+        grid-template-columns: 1fr;
     }
 }
