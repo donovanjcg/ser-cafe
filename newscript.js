@@ -6,7 +6,7 @@
 const perfilesVariedad = {
 
     "Castillo Sur": {
-        origen: "Finca Lucitania · Matituy, La Florida, Nariño",
+        origen: "Finca Lucitania, La Florida, Nariño",
         altura: "1.978 msnm",
         proceso: "Lavado",
         notas: [
@@ -20,7 +20,7 @@ const perfilesVariedad = {
     },
 
     "Chiroso": {
-        origen: "Urrao, Antioquia",
+        origen: "Finca La Duquesa, Urrao, Antioquia",
         altura: "1.950 msnm",
         proceso: "Lavado",
         notas: [
@@ -43,7 +43,7 @@ const perfilesVariedad = {
             { nombre: "Frutos secos", icono: "🥜" }
         ],
         tostion: 4,
-        acidez: 2,
+        acidez: 3,
         complejidad: 3
     }
 
@@ -55,21 +55,21 @@ const productos = [
         id: 1,
         nombre: "Castillo Sur",
         presentacion: 250,
-        precio: 1000,
+        precio: 23000,
         imagen: "Img/250gr.png"
     },
     {
         id: 2,
         nombre: "Castillo Sur",
         presentacion: 500,
-        precio: 1050,
+        precio: 42000,
         imagen: "Img/500gr.png"
     },
     {
         id: 3,
         nombre: "Castillo Sur",
         presentacion: 2500,
-        precio: 1100,
+        precio: 189900,
         imagen: "Img/2500gr.png"
     },
 
@@ -77,21 +77,21 @@ const productos = [
         id: 4,
         nombre: "Chiroso",
         presentacion: 250,
-        precio: 950,
+        precio: 32000,
         imagen: "Img/250gr.png"
     },
     {
         id: 5,
         nombre: "Chiroso",
         presentacion: 500,
-        precio: 900,
+        precio: 59000,
         imagen: "Img/500gr.png"
     },
     {
         id: 6,
         nombre: "Chiroso",
         presentacion: 2500,
-        precio: 850,
+        precio: 247500,
         imagen: "Img/2500gr.png"
     },
 
@@ -99,21 +99,21 @@ const productos = [
         id: 7,
         nombre: "Catimor",
         presentacion: 250,
-        precio: 800,
+        precio: 27500,
         imagen: "Img/250gr.png"
     },
     {
         id: 8,
         nombre: "Catimor",
         presentacion: 500,
-        precio: 1150,
+        precio: 49900,
         imagen: "Img/500gr.png"
     },
     {
         id: 9,
         nombre: "Catimor",
         presentacion: 2500,
-        precio: 1200,
+        precio: 115000,
         imagen: "Img/2500gr.png"
     }
 
