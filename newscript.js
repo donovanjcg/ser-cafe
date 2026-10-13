@@ -113,7 +113,7 @@ const productos = [
         id: 9,
         nombre: "Catimor",
         presentacion: 2500,
-        precio: 115000,
+        precio: 215000,
         imagen: "Img/2500gr.png"
     }
 
