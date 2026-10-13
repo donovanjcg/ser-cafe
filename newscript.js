@@ -944,7 +944,7 @@ function calcularEnvio() {
 
     }
 
-    let envio = 18000;
+    let envio = 18500;
 
     if (
         departamento === "Antioquia"
@@ -967,7 +967,7 @@ function calcularEnvio() {
             municipio === "Guarne"
         ) {
 
-            envio = 11000;
+            envio = 12500;
 
         }
 
@@ -983,7 +983,7 @@ function calcularEnvio() {
         envio +=
             (
                 kilos - 1
-            ) * 4400;
+            ) * 4900;
 
     }
 
