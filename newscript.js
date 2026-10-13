@@ -8,7 +8,7 @@ const perfilesVariedad = {
     "Castillo Sur": {
         origen: "Finca Lucitania · Matituy, La Florida, Nariño",
         altura: "1.978 msnm",
-        proceso: "Lavado y secado al sol",
+        proceso: "Lavado",
         notas: [
             { nombre: "Naranja", icono: "🍊" },
             { nombre: "Chocolate", icono: "🍫" },
@@ -21,7 +21,7 @@ const perfilesVariedad = {
 
     "Chiroso": {
         origen: "Urrao, Antioquia",
-        altura: "1.958 msnm",
+        altura: "1.950 msnm",
         proceso: "Lavado",
         notas: [
             { nombre: "Naranja", icono: "🍊" },
@@ -34,8 +34,8 @@ const perfilesVariedad = {
     },
 
     "Catimor": {
-        origen: "Nariño, Colombia",
-        altura: "1.900 msnm",
+        origen: "Urral, Antioquia",
+        altura: "1.950 msnm",
         proceso: "Lavado",
         notas: [
             { nombre: "Cacao", icono: "🍫" },
@@ -55,21 +55,21 @@ const productos = [
         id: 1,
         nombre: "Castillo Sur",
         presentacion: 250,
-        precio: 4000,
+        precio: 1000,
         imagen: "Img/250gr.png"
     },
     {
         id: 2,
         nombre: "Castillo Sur",
         presentacion: 500,
-        precio: 42000,
+        precio: 1050,
         imagen: "Img/500gr.png"
     },
     {
         id: 3,
         nombre: "Castillo Sur",
         presentacion: 2500,
-        precio: 189900,
+        precio: 1100,
         imagen: "Img/2500gr.png"
     },
 
@@ -77,21 +77,21 @@ const productos = [
         id: 4,
         nombre: "Chiroso",
         presentacion: 250,
-        precio: 4500,
+        precio: 950,
         imagen: "Img/250gr.png"
     },
     {
         id: 5,
         nombre: "Chiroso",
         presentacion: 500,
-        precio: 59000,
+        precio: 900,
         imagen: "Img/500gr.png"
     },
     {
         id: 6,
         nombre: "Chiroso",
         presentacion: 2500,
-        precio: 247500,
+        precio: 850,
         imagen: "Img/2500gr.png"
     },
 
@@ -99,21 +99,21 @@ const productos = [
         id: 7,
         nombre: "Catimor",
         presentacion: 250,
-        precio: 26000,
+        precio: 800,
         imagen: "Img/250gr.png"
     },
     {
         id: 8,
         nombre: "Catimor",
         presentacion: 500,
-        precio: 49000,
+        precio: 1150,
         imagen: "Img/500gr.png"
     },
     {
         id: 9,
         nombre: "Catimor",
         presentacion: 2500,
-        precio: 219500,
+        precio: 1200,
         imagen: "Img/2500gr.png"
     }
 
@@ -1266,13 +1266,13 @@ function generarBotonPago() {
     // URL de respuesta
     script.setAttribute(
         "data-epayco-response",
-        "https://script.google.com/macros/s/AKfycbz5YHtZpU3QLR0GzPLOo0iXgIPcivR9nHHZX76MuRyUDB9omOpL1f5W6b68sCtTBYUPqA/exec"
+        "https://ser-cafe.com/#details"
     );
 
     // URL confirmación
     script.setAttribute(
         "data-epayco-confirmation",
-        "https://ser-cafe.com/#details"
+        "https://script.google.com/macros/s/AKfycbz5YHtZpU3QLR0GzPLOo0iXgIPcivR9nHHZX76MuRyUDB9omOpL1f5W6b68sCtTBYUPqA/exec"
     );
 
     script.setAttribute(
