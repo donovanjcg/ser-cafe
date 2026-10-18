@@ -1,37 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ser Café | Café Premium Colombiano</title>
+    <title>Ser Café | Tienda</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Img/logoSC-10.png" type="image/png">
 </head>
-<body>
+<body class="n2">
+
+    <!-- HEADER -->
     <header>
         <a href="index.html">
-            <img class="logoletra logoheader" src="Img/logoSC-letra-02.png" alt="logo">
+            <img class="logoletra logoheader" src="Img/logoSC-letra-02.png" alt="Ser Café">
         </a>
         <nav>
             <ul>
                 <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="perfil.html">Perfil de SerCafé</a></li>
+                <li><a href="perfil.html">Perfil</a></li>
                 <li><a href="contactanos.html">Contáctanos</a></li>
             </ul>
         </nav>
-        <button class="btn-tienda" onclick="window.location.href='tienda.html'">
-            🛒 Comprar Café
+        <button class="btn-tienda" onclick="abrirCarrito()">
+            🛒 Carrito (<span id="contadorCarrito">0</span>)
         </button>
     </header>
 
-    <h2 class="titulo tiendah1">
-        Escoge tu presentación
-    </h2>
+    <!-- HERO -->
+    <section class="n2-hero" style="min-height:46vh;">
+        <img class="n2-hero-img" src="Img/Presentaciones-01.png" alt="Café de especialidad Ser Café">
+        <div class="n2-hero-overlay">
+            <span class="n2-kicker">Tienda · Finca Lucitania</span>
+            <h1>Café de especialidad colombiano</h1>
+            <p>Castillo Sur, Chiroso y Catimor, seleccionados directamente de origen
+               desde Nariño. Elige tu variedad, molienda y presentación.</p>
+        </div>
+    </section>
 
-    <div class="contenedor2c">
-        <a href="250gr.html"><img class="tiendaimg" src="Img/tienda 250gr.png" alt="250 gramos"></a>
-        <a href="2500gr.html"><img class="tiendaimg" src="Img/tienda 2500gr.png" alt="2500 gramos"></a>
-        <a href="500gr.html"><img class="tiendaimg" src="Img/tienda 500gr.png" alt="500 gramos"></a>
-    </div>
+    <!-- PRODUCTOS -->
+    <main>
+        <section class="catalogo">
+            <span class="n2-eyebrow">Nuestro catálogo</span>
+            <h2>Nuestros Cafés</h2>
+
+            <div id="contenedorProductos" class="grid-productos">
+                <!-- Se llena desde newscript.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- CARRITO LATERAL -->
+    <aside id="carritoPanel" class="carrito-panel">
+        <div class="carrito-header">
+            <h2>Mi Carrito</h2>
+            <button class="cerrar-carrito" onclick="cerrarCarrito()">✕</button>
+        </div>
+
+        <div id="carritoItems" class="carrito-items">
+            <!-- Productos -->
+        </div>
+
+        <hr>
+
+        <!-- UBICACIÓN -->
+        <div class="ubicacion">
+            <h3>Ubicación de entrega</h3>
+            <select id="departamento"
+                onchange="cargarMunicipios(); actualizarResumen(); invalidarPago();">
+                <option value="">Seleccione departamento</option>
+                <option value="Antioquia">Antioquia</option>
+                <option value="Otro">Resto del país</option>
+            </select>
+            <select id="municipio" onchange="actualizarResumen(); invalidarPago();">
+                <option value="">Seleccione municipio</option>
+            </select>
+        </div>
+
+        <hr>
+
+        <!-- RESUMEN -->
+        <div class="resumen-compra">
+            <h3>Resumen</h3>
+            <div class="fila-resumen">
+                <span>Subtotal:</span>
+                <span id="subtotal">$0</span>
+            </div>
+            <div class="fila-resumen">
+                <span>Envío:</span>
+                <span id="envio">$0</span>
+            </div>
+            <div class="fila-resumen total">
+                <span>Total:</span>
+                <span id="totalPagar">$0</span>
+            </div>
+        </div>
+
+        <!-- BOTÓN EPAYCO -->
+        <div class="pago">
+            <button id="btnGenerarPago" class="btn-pagar" onclick="generarBotonPago()">
+                Generar Pago
+            </button>
+            <div id="epayco-button-container"></div>
+        </div>
+    </aside>
+
+    <!-- FONDO OSCURO -->
+    <div id="overlay" class="overlay" onclick="cerrarCarrito()"></div>
+
+    <!-- TEMPLATE PRODUCTO -->
+    <template id="templateProducto">
+        <div class="producto" tabindex="0">
+            <img class="producto-imagen" src="" alt="Producto">
+            <div class="producto-info">
+                <h3 class="producto-nombre"></h3>
+                <p class="producto-presentacion"></p>
+                <p class="producto-precio"></p>
+
+                <label>Tipo de molienda</label>
+                <select class="molienda">
+                    <option value="Grano">Grano</option>
+                    <option value="Media">Media</option>
+                    <option value="Fina">Fina</option>
+                    <option value="Gruesa">Gruesa</option>
+                </select>
+
+                <div class="cantidad-box">
+                    <button class="cantidad-btn disminuir">-</button>
+                    <span class="cantidad">1</span>
+                    <button class="cantidad-btn aumentar">+</button>
+                </div>
+
+                <button class="btn-agregar">Agregar al carrito</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- LOADING OPCIONAL -->
+    <div id="loading" class="loading" style="display:none;">Procesando...</div>
+
+    <!-- SCRIPT -->
+    <script src="newscript.js"></script>
+    <script src="componentes.js"></script>
+
 </body>
 </html>

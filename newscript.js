@@ -2,6 +2,53 @@
 // PRODUCTOS
 // =========================
 
+// Perfil sensorial por variedad (se reutiliza en todas las presentaciones)
+const perfilesVariedad = {
+
+    "Castillo Sur": {
+        origen: "Finca Lucitania, La Florida, Nariño",
+        altura: "1.978 msnm",
+        proceso: "Lavado",
+        notas: [
+            { nombre: "Naranja", icono: "🍊" },
+            { nombre: "Chocolate", icono: "🍫" },
+            { nombre: "Caramelo", icono: "🍮" }
+        ],
+        tostion: 3,
+        acidez: 4,
+        complejidad: 3
+    },
+
+    "Chiroso": {
+        origen: "Finca La Duquesa, Urrao, Antioquia",
+        altura: "1.950 msnm",
+        proceso: "Lavado",
+        notas: [
+            { nombre: "Naranja", icono: "🍊" },
+            { nombre: "Durazno", icono: "🍑" },
+            { nombre: "Miel", icono: "🍯" }
+        ],
+        tostion: 3,
+        acidez: 5,
+        complejidad: 4
+    },
+
+    "Catimor": {
+        origen: "Urral, Antioquia",
+        altura: "1.950 msnm",
+        proceso: "Lavado",
+        notas: [
+            { nombre: "Cacao", icono: "🍫" },
+            { nombre: "Nuez", icono: "🌰" },
+            { nombre: "Frutos secos", icono: "🥜" }
+        ],
+        tostion: 4,
+        acidez: 3,
+        complejidad: 3
+    }
+
+};
+
 const productos = [
 
     {
@@ -9,21 +56,21 @@ const productos = [
         nombre: "Castillo Sur",
         presentacion: 250,
         precio: 23000,
-        imagen: "Img/castillo250.png"
+        imagen: "Img/CS-250gr.png"
     },
     {
         id: 2,
         nombre: "Castillo Sur",
         presentacion: 500,
         precio: 42000,
-        imagen: "Img/castillo500.png"
+        imagen: "Img/CS-500gr.png"
     },
     {
         id: 3,
         nombre: "Castillo Sur",
         presentacion: 2500,
         precio: 189900,
-        imagen: "Img/castillo2500.png"
+        imagen: "Img/CS-2500gr.png"
     },
 
     {
@@ -31,43 +78,43 @@ const productos = [
         nombre: "Chiroso",
         presentacion: 250,
         precio: 32000,
-        imagen: "Img/chiroso250.png"
+        imagen: "Img/CH-250gr.png"
     },
     {
         id: 5,
         nombre: "Chiroso",
         presentacion: 500,
         precio: 59000,
-        imagen: "Img/chiroso500.png"
+        imagen: "Img/CH-500gr.png"
     },
     {
         id: 6,
         nombre: "Chiroso",
         presentacion: 2500,
         precio: 247500,
-        imagen: "Img/chiroso2500.png"
+        imagen: "Img/CH-2500gr.png"
     },
 
     {
         id: 7,
         nombre: "Catimor",
         presentacion: 250,
-        precio: 26000,
-        imagen: "Img/catimor250.png"
+        precio: 27500,
+        imagen: "Img/CT-250gr.png"
     },
     {
         id: 8,
         nombre: "Catimor",
         presentacion: 500,
-        precio: 49000,
-        imagen: "Img/catimor500.png"
+        precio: 49900,
+        imagen: "Img/CT-500gr.png"
     },
     {
         id: 9,
         nombre: "Catimor",
         presentacion: 2500,
-        precio: 219500,
-        imagen: "Img/catimor2500.png"
+        precio: 215000,
+        imagen: "Img/CT-2500gr.png"
     }
 
 ];
@@ -202,6 +249,13 @@ function renderProductos() {
             "g";
 
         clone.querySelector(
+            ".producto-imagen"
+        ).onerror = function () {
+            this.onerror = null;
+            this.src = "Img/logoSC-10.png";
+        };
+
+        clone.querySelector(
             ".producto-nombre"
         ).innerText =
             producto.nombre;
@@ -283,12 +337,159 @@ function renderProductos() {
             }
         );
 
+        // --- Tooltip flotante con resumen del perfil ---
+        // Solo se muestra sobre la zona superior (imagen, nombre, precio).
+        // Al bajar a la zona de controles (molienda, cantidad, agregar)
+        // el tooltip desaparece para no estorbar.
+        const tarjeta = clone.querySelector(".producto");
+        if (tarjeta) {
+
+            // ¿El cursor está sobre un control interactivo o la zona de molienda hacia abajo?
+            const enZonaControles = (e) => {
+                const t = e.target;
+                if (t.closest(".molienda") ||
+                    t.closest(".cantidad-box") ||
+                    t.closest(".btn-agregar") ||
+                    t.closest("label")) {
+                    return true;
+                }
+                // Cualquier punto por debajo del inicio del selector de molienda
+                const molienda = tarjeta.querySelector(".molienda");
+                if (molienda) {
+                    const limite = molienda.getBoundingClientRect().top;
+                    if (e.clientY >= limite) return true;
+                }
+                return false;
+            };
+
+            tarjeta.addEventListener("mouseenter", (e) => {
+                if (enZonaControles(e)) return;
+                mostrarPerfilFlotante(producto, tarjeta);
+            });
+            tarjeta.addEventListener("mousemove", (e) => {
+                if (enZonaControles(e)) {
+                    ocultarPerfilFlotante();
+                    return;
+                }
+                mostrarPerfilFlotante(producto, tarjeta);
+                posicionarPerfilFlotante(e);
+            });
+            tarjeta.addEventListener("mouseleave", () => {
+                ocultarPerfilFlotante();
+            });
+        }
+
         contenedor.appendChild(
             clone
         );
 
     });
 
+}
+
+
+// =========================
+// TOOLTIP FLOTANTE DE PERFIL
+// =========================
+
+function construirPuntosMedidor(nivel) {
+    let html = "";
+    for (let i = 1; i <= 5; i++) {
+        html += `<span class="pf-punto ${i <= nivel ? "activo" : ""}"></span>`;
+    }
+    return html;
+}
+
+function obtenerTooltip() {
+    let tip = document.getElementById("perfilFlotante");
+    if (!tip) {
+        tip = document.createElement("div");
+        tip.id = "perfilFlotante";
+        tip.className = "perfil-flotante";
+        document.body.appendChild(tip);
+    }
+    return tip;
+}
+
+function mostrarPerfilFlotante(producto, tarjeta) {
+
+    const perfil = perfilesVariedad[producto.nombre];
+    if (!perfil) return;
+
+    const tip = obtenerTooltip();
+
+    // Si ya está mostrando este mismo producto, solo asegurar visibilidad
+    const clave = producto.id + "-" + producto.presentacion;
+    if (tip.dataset.clave === clave && tip.classList.contains("activo")) {
+        return;
+    }
+    tip.dataset.clave = clave;
+
+    const notasHTML = perfil.notas.map(n =>
+        `<span class="pf-nota">${n.icono} ${n.nombre}</span>`
+    ).join("");
+
+    tip.innerHTML = `
+        <div class="pf-header">
+            <h4>${producto.nombre}</h4>
+            <span class="pf-presentacion">${producto.presentacion} g</span>
+        </div>
+
+        <div class="pf-origen">
+            <span class="pf-icono">📍</span>
+            <span>${perfil.origen}</span>
+        </div>
+        <div class="pf-sub">⛰️ ${perfil.altura} · 💧 ${perfil.proceso}</div>
+
+        <div class="pf-notas">${notasHTML}</div>
+
+        <div class="pf-medidor">
+            <span>Tostión</span>
+            <span class="pf-escala">${construirPuntosMedidor(perfil.tostion)}</span>
+        </div>
+        <div class="pf-medidor">
+            <span>Acidez</span>
+            <span class="pf-escala">${construirPuntosMedidor(perfil.acidez)}</span>
+        </div>
+        <div class="pf-medidor">
+            <span>Complejidad</span>
+            <span class="pf-escala">${construirPuntosMedidor(perfil.complejidad)}</span>
+        </div>
+    `;
+
+    tip.classList.add("activo");
+}
+
+function posicionarPerfilFlotante(e) {
+    const tip = document.getElementById("perfilFlotante");
+    if (!tip || !tip.classList.contains("activo")) return;
+
+    const margen = 16;
+    const ancho = tip.offsetWidth;
+    const alto = tip.offsetHeight;
+
+    let x = e.clientX + margen;
+    let y = e.clientY + margen;
+
+    // Evitar que se salga por la derecha / abajo
+    if (x + ancho > window.innerWidth - 8) {
+        x = e.clientX - ancho - margen;
+    }
+    if (y + alto > window.innerHeight - 8) {
+        y = window.innerHeight - alto - 8;
+    }
+    if (y < 8) y = 8;
+
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+}
+
+function ocultarPerfilFlotante() {
+    const tip = document.getElementById("perfilFlotante");
+    if (tip) {
+        tip.classList.remove("activo");
+        tip.dataset.clave = "";
+    }
 }
 
 
@@ -352,6 +553,42 @@ function agregarAlCarrito(
 
     actualizarResumen();
 
+    mostrarToast(
+        `${producto.nombre} ${producto.presentacion}g agregado al carrito`
+    );
+
+}
+
+
+// =========================
+// NOTIFICACIÓN (TOAST)
+// =========================
+
+let toastTimeout;
+
+function mostrarToast(mensaje) {
+
+    let toast =
+        document.getElementById("toastCarrito");
+
+    if (!toast) {
+
+        toast = document.createElement("div");
+        toast.id = "toastCarrito";
+        toast.className = "toast-carrito";
+        document.body.appendChild(toast);
+
+    }
+
+    toast.innerText = mensaje;
+    toast.classList.add("activo");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("activo");
+    }, 2500);
+
 }
 
 
@@ -394,7 +631,8 @@ function renderCarrito() {
 
                 <img
                     src="${item.imagen}"
-                    class="img-carrito">
+                    class="img-carrito"
+                    onerror="this.onerror=null;this.src='Img/logoSC-10.png';">
 
                 <div class="info-carrito">
 
@@ -602,7 +840,8 @@ function cargarMunicipios() {
             "municipio"
         );
 
-    municipioSelect.innerHTML = "";
+    municipioSelect.innerHTML =
+        '<option value="">Seleccione municipio</option>';
 
     if (
         municipiosPorDepartamento[
@@ -705,7 +944,7 @@ function calcularEnvio() {
 
     }
 
-    let envio = 18000;
+    let envio = 18500;
 
     if (
         departamento === "Antioquia"
@@ -728,7 +967,7 @@ function calcularEnvio() {
             municipio === "Guarne"
         ) {
 
-            envio = 11000;
+            envio = 12500;
 
         }
 
@@ -744,7 +983,7 @@ function calcularEnvio() {
         envio +=
             (
                 kilos - 1
-            ) * 4400;
+            ) * 4900;
 
     }
 
@@ -1027,13 +1266,13 @@ function generarBotonPago() {
     // URL de respuesta
     script.setAttribute(
         "data-epayco-response",
-        "https://script.google.com/macros/s/AKfycbz5YHtZpU3QLR0GzPLOo0iXgIPcivR9nHHZX76MuRyUDB9omOpL1f5W6b68sCtTBYUPqA/exec"
+        "https://ser-cafe.com/#details"
     );
 
     // URL confirmación
     script.setAttribute(
         "data-epayco-confirmation",
-        "https://ser-cafe.com/#details"
+        "https://script.google.com/macros/s/AKfycbz5YHtZpU3QLR0GzPLOo0iXgIPcivR9nHHZX76MuRyUDB9omOpL1f5W6b68sCtTBYUPqA/exec"
     );
 
     script.setAttribute(
