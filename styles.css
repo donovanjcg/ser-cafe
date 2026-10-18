@@ -2258,9 +2258,36 @@ h4.textoh3 {
     background: linear-gradient(135deg, #8a4ea6 0%, #6a3488 100%);
 }
 
-.pv2-card.var-castillo .pv2-media { background: linear-gradient(135deg, #8a4ea6 0%, #6a3488 100%); }
-.pv2-card.var-chiroso  .pv2-media { background: linear-gradient(135deg, #a85a9d 0%, #7d3e86 100%); }
-.pv2-card.var-catimor  .pv2-media { background: linear-gradient(135deg, #8f4a73 0%, #6e3270 100%); }
+/* --- Identidad de color por variedad (según la etiqueta de cada bolsa) ---
+   Castillo Sur -> azul · Chiroso -> verde · Catimor -> naranja/mostaza.
+   Cada tarjeta define sus propias variables y el resto de los elementos
+   (badge, chips, barras, datos y CTA) las heredan. */
+.pv2-card.var-castillo {
+    --var-color: #2f80c4;
+    --var-color-oscuro: #1f5d93;
+    --var-color-suave: #e9f3fb;
+    --var-color-borde: #cfe4f5;
+}
+.pv2-card.var-chiroso {
+    --var-color: #5aa845;
+    --var-color-oscuro: #3f8130;
+    --var-color-suave: #edf6ea;
+    --var-color-borde: #d4e9cd;
+}
+.pv2-card.var-catimor {
+    --var-color: #e39a1c;
+    --var-color-oscuro: #b87611;
+    --var-color-suave: #fdf3e0;
+    --var-color-borde: #f6e4c2;
+}
+
+/* Fondo del lado de la imagen con el color de la variedad */
+.pv2-card.var-castillo .pv2-media { background: linear-gradient(135deg, #3f93d6 0%, #1f5d93 100%); }
+.pv2-card.var-chiroso  .pv2-media { background: linear-gradient(135deg, #6fbb57 0%, #3f8130 100%); }
+.pv2-card.var-catimor  .pv2-media { background: linear-gradient(135deg, #f0ab30 0%, #b87611 100%); }
+
+/* Borde superior de acento en cada tarjeta */
+.pv2-card { border-top: 5px solid var(--var-color, var(--color-principal)); }
 
 .pv2-media .carrusel {
     max-width: 320px;
@@ -2272,7 +2299,7 @@ h4.textoh3 {
     top: 1.2rem;
     left: 1.2rem;
     background: rgba(255, 255, 255, 0.92);
-    color: var(--color-principal);
+    color: var(--var-color, var(--color-principal));
     font-family: Montserrat, sans-serif;
     font-weight: 700;
     font-size: 0.78rem;
@@ -2292,7 +2319,7 @@ h4.textoh3 {
 .pv2-body h2 {
     font-family: Anton, sans-serif;
     font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-    color: var(--color-principal);
+    color: var(--var-color-oscuro, var(--color-principal));
     margin: 0 0 0.2rem;
 }
 
@@ -2318,9 +2345,9 @@ h4.textoh3 {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: #f4ebf8;
-    color: var(--color-principal);
-    border: 1px solid #e2cfec;
+    background: var(--var-color-suave, #f4ebf8);
+    color: var(--var-color-oscuro, var(--color-principal));
+    border: 1px solid var(--var-color-borde, #e2cfec);
     border-radius: 999px;
     padding: 0.35rem 0.85rem;
     font-family: Montserrat, sans-serif;
@@ -2337,11 +2364,11 @@ h4.textoh3 {
 }
 
 .pv2-dato {
-    background: #faf6fd;
+    background: var(--var-color-suave, #faf6fd);
     border-radius: 0.8rem;
     padding: 0.8rem;
     text-align: center;
-    border: 1px solid #f0e6f5;
+    border: 1px solid var(--var-color-borde, #f0e6f5);
 }
 
 .pv2-dato .pv2-dato-icono { font-size: 1.3rem; }
@@ -2386,7 +2413,7 @@ h4.textoh3 {
 }
 
 .pv2-medidor-label span:last-child {
-    color: var(--color-principal);
+    color: var(--var-color-oscuro, var(--color-principal));
     font-weight: 600;
 }
 
@@ -2401,7 +2428,7 @@ h4.textoh3 {
     display: block;
     height: 100%;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--color-principal), #a85a9d);
+    background: linear-gradient(90deg, var(--var-color-oscuro, var(--color-principal)), var(--var-color, #a85a9d));
     width: var(--pos, 50%);
 }
 
@@ -2422,8 +2449,8 @@ h4.textoh3 {
     text-decoration: none;
     font-family: Montserrat, sans-serif;
     font-weight: 700;
-    background: var(--color-principal);
-    color: var(--color-texto-hueso);
+    background: var(--var-color, var(--color-principal));
+    color: #fff;
     padding: 0.9rem 1.6rem;
     border-radius: 0.6rem;
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
@@ -2431,8 +2458,8 @@ h4.textoh3 {
 
 .pv2-cta:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(69, 9, 90, 0.28);
-    background: #782494;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+    background: var(--var-color-oscuro, #782494);
 }
 
 @media (max-width: 820px) {
@@ -2633,4 +2660,320 @@ h4.textoh3 {
     .cv2-grid {
         grid-template-columns: 1fr;
     }
+}
+
+
+/* ============================================================
+   PÁGINA DE GRACIAS (gracias.html, prefijo .gracias)
+   Mantiene la paleta morada y el estilo de las tarjetas.
+   ============================================================ */
+.gracias-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 4rem;
+}
+
+.gracias-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    border: 1px solid #efe2f7;
+    box-shadow: 0 24px 55px rgba(69, 9, 90, 0.16);
+    padding: 3rem 2.4rem 2.6rem;
+    text-align: center;
+    position: relative;
+}
+
+.gracias-check {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 1.4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-principal), #782494);
+    color: #fff;
+    font-size: 2.4rem;
+    line-height: 76px;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(89, 12, 114, 0.35);
+}
+
+.gracias-card .n2-eyebrow {
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.gracias-card h2 {
+    font-family: Anton, sans-serif;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    color: var(--color-principal);
+    margin: 0 0 1rem;
+}
+
+.gracias-mensaje {
+    font-family: Montserrat, sans-serif;
+    color: #5f4a68;
+    line-height: 1.6;
+    max-width: 52ch;
+    margin: 0 auto 1.8rem;
+}
+
+/* Referencia / estado */
+.gracias-ref {
+    background: #faf6fd;
+    border: 1px solid #f0e6f5;
+    border-radius: 0.9rem;
+    padding: 1rem 1.3rem;
+    margin: 0 auto 1.8rem;
+    max-width: 420px;
+    font-family: Montserrat, sans-serif;
+}
+
+.gracias-ref-fila {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.35rem 0;
+    color: #5f4a68;
+}
+
+.gracias-ref-fila strong { color: #3a2140; }
+
+.estado-ok { color: #2e8b57 !important; }
+.estado-error { color: #c0392b !important; }
+
+/* Resumen del pedido */
+.gracias-resumen {
+    text-align: left;
+    border-top: 1px solid #f0e6f5;
+    padding-top: 1.6rem;
+    margin-top: 0.4rem;
+}
+
+.gracias-resumen h3 {
+    font-family: Montserrat, sans-serif;
+    color: var(--color-principal);
+    font-size: 1.05rem;
+    margin: 0 0 1rem;
+}
+
+.gracias-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-bottom: 1.2rem;
+}
+
+.gracias-item {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: Montserrat, sans-serif;
+}
+
+.gracias-item img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    background: #faf6fd;
+}
+
+.gracias-item-info { display: flex; flex-direction: column; }
+.gracias-item-info strong { color: #3a2140; font-size: 0.95rem; }
+.gracias-item-info span { color: #9b84a8; font-size: 0.82rem; }
+
+.gracias-item-cant {
+    color: #7a6383;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.gracias-item-precio {
+    color: var(--color-principal);
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.gracias-totales {
+    border-top: 1px solid #f0e6f5;
+    padding-top: 1rem;
+    font-family: Montserrat, sans-serif;
+}
+
+.gracias-fila {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    color: #5f4a68;
+}
+
+.gracias-fila-total {
+    font-weight: 700;
+    color: var(--color-principal);
+    font-size: 1.1rem;
+    border-top: 1px dashed #e2cfec;
+    margin-top: 0.4rem;
+    padding-top: 0.7rem;
+}
+
+.gracias-envio-a {
+    margin-top: 0.9rem;
+    font-size: 0.88rem;
+    color: #7a6383;
+}
+
+/* Botones de acción */
+.gracias-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    justify-content: center;
+    margin: 2rem 0 1.4rem;
+}
+
+.n2-btn-primario,
+.n2-btn-secundario {
+    display: inline-block;
+    text-decoration: none;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    padding: 0.9rem 1.7rem;
+    border-radius: 0.6rem;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.n2-btn-primario {
+    background: var(--color-principal);
+    color: var(--color-texto-hueso);
+    border: 1px solid var(--color-principal);
+}
+
+.n2-btn-primario:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(69, 9, 90, 0.28);
+    background: #782494;
+}
+
+.n2-btn-secundario {
+    background: #fff;
+    color: var(--color-principal);
+    border: 1px solid var(--color-principal);
+}
+
+.n2-btn-secundario:hover {
+    transform: translateY(-3px);
+    background: #faf6fd;
+}
+
+.gracias-contacto {
+    font-family: Montserrat, sans-serif;
+    font-size: 0.9rem;
+    color: #9b84a8;
+}
+
+.gracias-contacto a {
+    color: var(--color-principal);
+    font-weight: 600;
+}
+
+@media (max-width: 560px) {
+    .gracias-card { padding: 2.2rem 1.4rem 2rem; }
+    .gracias-item {
+        grid-template-columns: 44px 1fr auto;
+    }
+    .gracias-item-cant { display: none; }
+    .gracias-acciones .n2-btn-primario,
+    .gracias-acciones .n2-btn-secundario { flex: 1 1 auto; text-align: center; }
+}
+
+
+/* ============================================================
+   DATOS DEL CLIENTE Y CONSENTIMIENTO (carrito)
+   ============================================================ */
+.datos-cliente h3 {
+    color: var(--color-principal);
+    text-align: left;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.datos-cliente input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid #cbb2d6;
+    font-family: Montserrat, sans-serif;
+    box-sizing: border-box;
+}
+
+.datos-cliente input:focus {
+    outline: none;
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 2px rgba(89, 12, 114, 0.15);
+}
+
+.consent-carrito {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #5f4a68;
+    margin: 0.4rem 0 1rem;
+    cursor: pointer;
+}
+
+.consent-carrito input[type="checkbox"] {
+    margin-top: 0.15rem;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-principal);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.consent-carrito a {
+    color: var(--color-principal);
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   PÁGINAS LEGALES (privacidad.html, prefijo .legal)
+   ============================================================ */
+.legal-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+    font-family: Montserrat, sans-serif;
+    color: #4a3a52;
+    line-height: 1.7;
+}
+
+.legal-wrap .legal-fecha {
+    color: #9b84a8;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.legal-wrap h2 {
+    color: var(--color-principal);
+    font-family: Montserrat, sans-serif;
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+}
+
+.legal-wrap ul {
+    padding-left: 1.2rem;
+    margin: 0.4rem 0 1rem;
+}
+
+.legal-wrap li { margin-bottom: 0.4rem; }
+
+.legal-wrap a {
+    color: var(--color-principal);
+    font-weight: 600;
 }

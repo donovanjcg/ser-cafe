@@ -6,6 +6,7 @@
     <title>Ser Café | Contáctanos</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Img/logoSC-10.png" type="image/png">
+    <script src="tracking.js"></script>
 </head>
 <body class="n2">
     <header>
@@ -26,7 +27,7 @@
 
     <!-- HERO -->
     <section class="n2-hero" style="min-height:42vh;">
-        <img class="n2-hero-img" src="Img/fincaL.jpeg" alt="Finca Ser Café">
+        <img class="n2-hero-img" src="Img/fincaL.jpeg" alt="Finca Ser Café" fetchpriority="high" decoding="async">
         <div class="n2-hero-overlay">
             <span class="n2-kicker">Hablemos de café</span>
             <h1>Contáctanos</h1>
@@ -149,6 +150,15 @@
                 headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
                 body: params.toString()
             });
+
+            // Conversión de LEAD (Google Ads / GA4) con Enhanced Conversions.
+            if (typeof window.trackLead === "function") {
+                window.trackLead({
+                    nombre:   form.nombre.value.trim(),
+                    email:    form.correo.value.trim(),
+                    telefono: form.telefono.value.trim()
+                });
+            }
 
             // Con no-cors no podemos leer la respuesta, pero el POST sí llega al script.
             form.reset();

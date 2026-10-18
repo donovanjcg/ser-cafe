@@ -6,6 +6,7 @@
     <title>Ser Café | Tienda</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Img/logoSC-10.png" type="image/png">
+    <script src="tracking.js"></script>
 </head>
 <body class="n2">
 
@@ -28,7 +29,7 @@
 
     <!-- HERO -->
     <section class="n2-hero" style="min-height:46vh;">
-        <img class="n2-hero-img" src="Img/Presentaciones-01.png" alt="Café de especialidad Ser Café">
+        <img class="n2-hero-img" src="Img/Presentaciones-01.png" alt="Café de especialidad Ser Café" fetchpriority="high" decoding="async">
         <div class="n2-hero-overlay">
             <span class="n2-kicker">Tienda · Finca Lucitania</span>
             <h1>Café de especialidad colombiano</h1>
@@ -58,6 +59,19 @@
 
         <div id="carritoItems" class="carrito-items">
             <!-- Productos -->
+        </div>
+
+        <hr>
+
+        <!-- DATOS DEL CLIENTE -->
+        <div class="datos-cliente">
+            <h3>Tus datos</h3>
+            <input type="text" id="clienteNombre" placeholder="Nombre y apellido"
+                   autocomplete="name" oninput="invalidarPago();">
+            <input type="email" id="clienteEmail" placeholder="Correo electrónico"
+                   autocomplete="email" oninput="invalidarPago();">
+            <input type="tel" id="clienteTelefono" placeholder="Teléfono (WhatsApp)"
+                   autocomplete="tel" oninput="invalidarPago();">
         </div>
 
         <hr>
@@ -95,6 +109,15 @@
             </div>
         </div>
 
+        <!-- CONSENTIMIENTO DE DATOS (Enhanced Conversions) -->
+        <label class="consent-carrito">
+            <input type="checkbox" id="consentDatos" onchange="guardarConsentimiento();">
+            <span>Acepto que Ser Café use mis datos de contacto y la
+            <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>,
+            incluyendo su envío seguro (cifrado) a plataformas de publicidad como Google
+            para medición y mejora de campañas.</span>
+        </label>
+
         <!-- BOTÓN EPAYCO -->
         <div class="pago">
             <button id="btnGenerarPago" class="btn-pagar" onclick="generarBotonPago()">
@@ -110,7 +133,7 @@
     <!-- TEMPLATE PRODUCTO -->
     <template id="templateProducto">
         <div class="producto" tabindex="0">
-            <img class="producto-imagen" src="" alt="Producto">
+            <img class="producto-imagen" src="" alt="Producto" loading="lazy" decoding="async">
             <div class="producto-info">
                 <h3 class="producto-nombre"></h3>
                 <p class="producto-presentacion"></p>

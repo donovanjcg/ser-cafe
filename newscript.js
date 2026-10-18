@@ -15,8 +15,8 @@ const perfilesVariedad = {
             { nombre: "Caramelo", icono: "🍮" }
         ],
         tostion: 3,
-        acidez: 4,
-        complejidad: 3
+        acidez: 5,
+        complejidad: 4
     },
 
     "Chiroso": {
@@ -24,13 +24,13 @@ const perfilesVariedad = {
         altura: "1.950 msnm",
         proceso: "Lavado",
         notas: [
+            { nombre: "Limoncillo", icono: "🌿" },
             { nombre: "Naranja", icono: "🍊" },
-            { nombre: "Durazno", icono: "🍑" },
-            { nombre: "Miel", icono: "🍯" }
+            { nombre: "Durazno", icono: "🍑" }
         ],
         tostion: 3,
-        acidez: 5,
-        complejidad: 4
+        acidez: 4,
+        complejidad: 5
     },
 
     "Catimor": {
@@ -38,13 +38,13 @@ const perfilesVariedad = {
         altura: "1.950 msnm",
         proceso: "Lavado",
         notas: [
-            { nombre: "Cacao", icono: "🍫" },
-            { nombre: "Nuez", icono: "🌰" },
-            { nombre: "Frutos secos", icono: "🥜" }
+            { nombre: "Frutos morados", icono: "🍇" },
+            { nombre: "Caramelo", icono: "🍮" },
+            { nombre: "Madarina", icono: "🍊" }
         ],
-        tostion: 4,
+        tostion: 3,
         acidez: 3,
-        complejidad: 3
+        complejidad: 4
     }
 
 };
@@ -632,6 +632,8 @@ function renderCarrito() {
                 <img
                     src="${item.imagen}"
                     class="img-carrito"
+                    loading="lazy"
+                    decoding="async"
                     onerror="this.onerror=null;this.src='Img/logoSC-10.png';">
 
                 <div class="info-carrito">
@@ -909,6 +911,11 @@ function calcularKilosFacturables() {
 // =========================
 
 function calcularEnvio() {
+
+    // Sin productos en el carrito no hay envío que cobrar.
+    if (carrito.length === 0) {
+        return 0;
+    }
 
     const departamento =
         document.getElementById(
@@ -1190,6 +1197,26 @@ function generarBotonPago() {
     const detalle =
         construirDetallePedido();
 
+    // Datos del cliente (para la página de gracias y Enhanced Conversions).
+    const cliente = obtenerDatosCliente();
+
+    // Guardamos una copia del pedido para mostrarlo en la página de gracias
+    // (la respuesta de ePayco no devuelve el detalle de los productos ni
+    //  los datos del comprador).
+    try {
+        localStorage.setItem(
+            "ultimoPedido",
+            JSON.stringify({
+                referencia: referencia,
+                descripcion: descripcion,
+                detalle: JSON.parse(detalle),
+                cliente: cliente
+            })
+        );
+    } catch (e) {
+        // Si localStorage falla, simplemente no mostramos el resumen.
+    }
+
     const script =
         document.createElement(
             "script"
@@ -1263,10 +1290,10 @@ function generarBotonPago() {
         "false"
     );
 
-    // URL de respuesta
+    // URL de respuesta -> página de gracias
     script.setAttribute(
         "data-epayco-response",
-        "https://ser-cafe.com/#details"
+        "https://ser-cafe.com/gracias.html"
     );
 
     // URL confirmación
@@ -1279,6 +1306,17 @@ function generarBotonPago() {
         "data-epayco-button",
         "https://multimedia.epayco.co/dashboard/btns/btn2.png"
     );
+
+    // Datos de facturación del cliente (pre-llenan el checkout de ePayco)
+    if (cliente.email) {
+        script.setAttribute("data-epayco-email_billing", cliente.email);
+    }
+    if (cliente.nombre) {
+        script.setAttribute("data-epayco-name_billing", cliente.nombre);
+    }
+    if (cliente.telefono) {
+        script.setAttribute("data-epayco-mobilephone_billing", cliente.telefono);
+    }
 
     // Información adicional
 
@@ -1302,3 +1340,51 @@ function generarBotonPago() {
     );
 
 }
+
+
+// =========================
+// DATOS DEL CLIENTE
+// =========================
+
+function obtenerDatosCliente() {
+
+    const nombreEl = document.getElementById("clienteNombre");
+    const emailEl = document.getElementById("clienteEmail");
+    const telEl = document.getElementById("clienteTelefono");
+
+    return {
+        nombre: nombreEl ? nombreEl.value.trim() : "",
+        email: emailEl ? emailEl.value.trim() : "",
+        telefono: telEl ? telEl.value.trim() : ""
+    };
+
+}
+
+// =========================
+// CONSENTIMIENTO DE DATOS
+// =========================
+
+function guardarConsentimiento() {
+
+    const check = document.getElementById("consentDatos");
+
+    try {
+        localStorage.setItem(
+            "sercafe_consent",
+            check && check.checked ? "si" : "no"
+        );
+    } catch (e) {
+        // localStorage no disponible
+    }
+
+}
+
+// Al cargar la tienda, reflejar el consentimiento previamente guardado.
+document.addEventListener("DOMContentLoaded", () => {
+    const check = document.getElementById("consentDatos");
+    if (check) {
+        try {
+            check.checked = localStorage.getItem("sercafe_consent") === "si";
+        } catch (e) { /* no-op */ }
+    }
+});
