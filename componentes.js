@@ -76,7 +76,30 @@ function inyectarBotonWhatsApp() {
     enlace.setAttribute("aria-label", "Escríbenos por WhatsApp");
     enlace.innerHTML = `<img src="Img/whatsapp.svg" alt="WhatsApp">`;
 
+    // Conversión: clic en el botón flotante de WhatsApp
+    enlace.addEventListener("click", function () {
+        if (typeof window.trackWhatsApp === "function") {
+            window.trackWhatsApp("boton-flotante");
+        }
+    });
+
     document.body.appendChild(enlace);
+}
+
+// =========================================================
+// TRACKING DE CLICS A WHATSAPP (cualquier enlace wa.me / api.whatsapp)
+// =========================================================
+function rastrearEnlacesWhatsApp() {
+    document.addEventListener("click", function (e) {
+        const enlace = e.target.closest(
+            'a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="whatsapp://"]'
+        );
+        if (!enlace) return;
+        if (enlace.classList.contains("whatsapp-flotante")) return; // ya rastreado
+        if (typeof window.trackWhatsApp === "function") {
+            window.trackWhatsApp(enlace.dataset.origen || "enlace");
+        }
+    });
 }
 
 // =========================================================
@@ -153,4 +176,5 @@ document.addEventListener("DOMContentLoaded", () => {
     inyectarFooter();
     inyectarBotonWhatsApp();
     iniciarCarruseles();
+    rastrearEnlacesWhatsApp();
 });
