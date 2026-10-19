@@ -1174,6 +1174,15 @@ function generarBotonPago() {
 
     }
 
+    // Debe aceptar la política de privacidad antes de generar el pago.
+    const consent = document.getElementById("consentDatos");
+    if (!consent || !consent.checked) {
+        alert(
+            "Debes aceptar la política de privacidad para continuar."
+        );
+        return;
+    }
+
     const total =
 
         calcularSubtotal() +
@@ -1197,168 +1206,133 @@ function generarBotonPago() {
     const detalle =
         construirDetallePedido();
 
-    // Datos del cliente (para la página de gracias y Enhanced Conversions).
-    const cliente = obtenerDatosCliente();
-
-    // Guardamos una copia del pedido para mostrarlo en la página de gracias
-    // (la respuesta de ePayco no devuelve el detalle de los productos ni
-    //  los datos del comprador).
+    // Guardamos una copia del pedido para mostrarlo en la página de gracias.
+    // Los datos del cliente (nombre/correo/teléfono) se extraen desde el
+    // Apps Script a partir de la confirmación de ePayco, no desde el carrito.
     try {
         localStorage.setItem(
             "ultimoPedido",
             JSON.stringify({
                 referencia: referencia,
                 descripcion: descripcion,
-                detalle: JSON.parse(detalle),
-                cliente: cliente
+                detalle: JSON.parse(detalle)
             })
         );
     } catch (e) {
         // Si localStorage falla, simplemente no mostramos el resumen.
     }
 
-    const script =
-        document.createElement(
-            "script"
-        );
-
-    script.src =
-        "https://checkout.epayco.co/checkout.js";
-
-    script.setAttribute(
-        "class",
-        "epayco-button"
-    );
-
-    script.setAttribute(
-        "data-epayco-key",
-        "30a566319a8faf42b3c7728630533513"
-    );
-
-    script.setAttribute(
-        "data-epayco-amount",
-        total
-    );
-
-    script.setAttribute(
-        "data-epayco-tax",
-        "0"
-    );
-
-    script.setAttribute(
-        "data-epayco-tax-base",
-        "0"
-    );
-
-    script.setAttribute(
-        "data-epayco-tax-ico",
-        "0"
-    );
-
-    script.setAttribute(
-        "data-epayco-name",
-        "Pedido Ser Café"
-    );
-
-    script.setAttribute(
-        "data-epayco-description",
-        descripcion
-    );
-
-    script.setAttribute(
-        "data-epayco-ref_payco",
-        referencia
-    );
-
-    script.setAttribute(
-        "data-epayco-currency",
-        "COP"
-    );
-
-    script.setAttribute(
-        "data-epayco-country",
-        "CO"
-    );
-
-    script.setAttribute(
-        "data-epayco-test",
-        "false"
-    );
-
-    script.setAttribute(
-        "data-epayco-external",
-        "false"
-    );
-
-    // URL de respuesta -> página de gracias
-    script.setAttribute(
-        "data-epayco-response",
-        "https://ser-cafe.com/gracias.html"
-    );
-
-    // URL confirmación
-    script.setAttribute(
-        "data-epayco-confirmation",
-        "https://script.google.com/macros/s/AKfycbz5YHtZpU3QLR0GzPLOo0iXgIPcivR9nHHZX76MuRyUDB9omOpL1f5W6b68sCtTBYUPqA/exec"
-    );
-
-    script.setAttribute(
-        "data-epayco-button",
-        "https://multimedia.epayco.co/dashboard/btns/btn2.png"
-    );
-
-    // Datos de facturación del cliente (pre-llenan el checkout de ePayco)
-    if (cliente.email) {
-        script.setAttribute("data-epayco-email_billing", cliente.email);
-    }
-    if (cliente.nombre) {
-        script.setAttribute("data-epayco-name_billing", cliente.nombre);
-    }
-    if (cliente.telefono) {
-        script.setAttribute("data-epayco-mobilephone_billing", cliente.telefono);
-    }
-
-    // Información adicional
-
-    script.setAttribute(
-        "data-epayco-extra1",
-        detalle
-    );
-
-    script.setAttribute(
-        "data-epayco-extra2",
-        departamento
-    );
-
-    script.setAttribute(
-        "data-epayco-extra3",
-        municipio
-    );
-
-    contenedor.appendChild(
-        script
-    );
-
-}
-
-
-// =========================
-// DATOS DEL CLIENTE
-// =========================
-
-function obtenerDatosCliente() {
-
-    const nombreEl = document.getElementById("clienteNombre");
-    const emailEl = document.getElementById("clienteEmail");
-    const telEl = document.getElementById("clienteTelefono");
-
-    return {
-        nombre: nombreEl ? nombreEl.value.trim() : "",
-        email: emailEl ? emailEl.value.trim() : "",
-        telefono: telEl ? telEl.value.trim() : ""
+    // Datos de la transacción para ePayco
+    const datosEpayco = {
+        amount: String(total),
+        tax: "0",
+        tax_base: "0",
+        tax_ico: "0",
+        name: "Pedido Ser Café",
+        description: descripcion,
+        currency: "COP",
+        country: "CO",
+        test: false,
+        external: "false",
+        invoice: referencia,
+        response: "https://ser-cafe.com/gracias.html",
+        confirmation: "https://script.google.com/macros/s/AKfycbz5YHtZpU3QLR0GzPLOo0iXgIPcivR9nHHZX76MuRyUDB9omOpL1f5W6b68sCtTBYUPqA/exec",
+        extra1: detalle,
+        extra2: departamento,
+        extra3: municipio
     };
 
+    mostrarBotonEpayco(datosEpayco, contenedor);
 }
+
+
+// =========================
+// BOTÓN DE PAGO (API ePayco)
+//  Se usa la API directa (ePayco.checkout.configure) en lugar de
+//  reinyectar <script src="checkout.js">. Esto permite REGENERAR el
+//  botón tantas veces como se quiera (p. ej. tras cambiar el carrito),
+//  cosa que fallaba al reinyectar el script porque el navegador no lo
+//  volvía a ejecutar.
+// =========================
+
+let epaycoCheckoutJsSolicitado = false;
+
+function construirBotonEpayco(datos, contenedor) {
+
+    // Botón visual propio que abre el checkout de ePayco.
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "btn-epayco-pagar";
+    boton.innerText = "Pagar $" + (Number(datos.amount) || 0).toLocaleString("es-CO");
+
+    boton.addEventListener("click", function () {
+        try {
+            const handler = ePayco.checkout.configure({
+                key: "30a566319a8faf42b3c7728630533513",
+                test: false
+            });
+            handler.open(datos);
+        } catch (e) {
+            alert("No se pudo abrir la pasarela de pago. Intenta de nuevo.");
+        }
+    });
+
+    contenedor.innerHTML = "";
+    contenedor.appendChild(boton);
+
+    // Bajar la vista hasta el botón recién creado.
+    desplazarAlBotonPago(boton);
+}
+
+function mostrarBotonEpayco(datos, contenedor) {
+
+    // Si la librería de ePayco ya está disponible, construimos directo.
+    if (window.ePayco && window.ePayco.checkout) {
+        construirBotonEpayco(datos, contenedor);
+        return;
+    }
+
+    contenedor.innerHTML = '<p class="cargando-pago">Cargando pasarela de pago…</p>';
+
+    // Si ya pedimos el script antes, solo esperamos a que ePayco exista.
+    if (epaycoCheckoutJsSolicitado) {
+        esperarEpayco(function () { construirBotonEpayco(datos, contenedor); });
+        return;
+    }
+
+    epaycoCheckoutJsSolicitado = true;
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.epayco.co/checkout.js";
+    script.onload = function () {
+        esperarEpayco(function () { construirBotonEpayco(datos, contenedor); });
+    };
+    script.onerror = function () {
+        epaycoCheckoutJsSolicitado = false;
+        contenedor.innerHTML =
+            '<p class="cargando-pago">No se pudo cargar la pasarela. Revisa tu conexión e intenta de nuevo.</p>';
+    };
+    document.body.appendChild(script);
+}
+
+function esperarEpayco(callback, intentos) {
+    intentos = intentos || 0;
+    if (window.ePayco && window.ePayco.checkout) {
+        callback();
+    } else if (intentos < 50) {
+        setTimeout(function () { esperarEpayco(callback, intentos + 1); }, 100);
+    }
+}
+
+function desplazarAlBotonPago(boton) {
+    // Pequeño retraso para asegurar que el botón ya está en el DOM.
+    setTimeout(function () {
+        if (boton && typeof boton.scrollIntoView === "function") {
+            boton.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }, 80);
+}
+
 
 // =========================
 // CONSENTIMIENTO DE DATOS

@@ -816,6 +816,34 @@ body{
     text-align: center;
 }
 
+/* Botón "Pagar" generado tras confirmar el pedido */
+.btn-epayco-pagar {
+    width: 100%;
+    padding: 1rem;
+    background: #2e8b57;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 8px 20px rgba(46, 139, 87, 0.3);
+}
+
+.btn-epayco-pagar:hover {
+    background: #26734a;
+    transform: translateY(-2px);
+}
+
+.cargando-pago {
+    font-family: Montserrat, sans-serif;
+    color: var(--color-principal);
+    font-size: 0.9rem;
+    margin: 0.6rem 0;
+}
+
 /* Overlay oscuro */
 .overlay {
     position: fixed;
